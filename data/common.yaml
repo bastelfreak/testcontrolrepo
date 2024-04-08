@@ -1,5 +1,5 @@
 ---
-puppet_enterprise::profile::master::sources:
+puppet_enterprise::master::code_manager::sources:
   foo:
     remote: 'https://github.com/bastelfreak/testcontrolrepo.git'
     prefix: true

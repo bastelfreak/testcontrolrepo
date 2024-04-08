@@ -1,0 +1,8 @@
+---
+puppet_enterprise::profile::master::sources:
+  foo:
+    remote: 'https://github.com/bastelfreak/testcontrolrepo.git'
+    prefix: true
+  baz:
+    remote: 'https://github.com/voxpupuli/controlrepo'
+    prefix: true

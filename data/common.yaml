@@ -1,9 +1,9 @@
 ---
 #puppet_enterprise::profile::master::r10k_remote: 'https://github.com/bastelfreak/testcontrolrepo.git'
-#puppet_enterprise::master::code_manager::sources:
-#  foo:
-#    remote: 'https://github.com/bastelfreak/testcontrolrepo.git'
-#    prefix: true
-#  baz:
-#    remote: 'https://github.com/voxpupuli/controlrepo'
-#    prefix: true
+puppet_enterprise::master::code_manager::sources:
+  foo:
+    remote: 'https://github.com/bastelfreak/testcontrolrepo.git'
+    prefix: true
+  baz:
+    remote: 'https://github.com/voxpupuli/controlrepo'
+    prefix: true

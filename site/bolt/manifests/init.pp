@@ -8,7 +8,7 @@
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
-class profiles::bolt (
+class bolt (
   String[1] $version = '3.29.0',
   Stdlib::HTTPSUrl $base_url = 'https://yum.puppet.com/',
   Stdlib::HTTPSUrl $release_package = "puppet-tools-release-el-${facts['os']['release']['major']}.noarch.rpm",

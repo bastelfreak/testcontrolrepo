@@ -13,7 +13,7 @@ Documentation=https://www.freedesktop.org/software/systemd/man/latest/systemd.un
 
 [Service]
 Type=simple # use simple so it runs in the background
-ExecStart=/opt/puppetlabs/bin/bolt plan show --modulepath /etc/puppetlabs/code/environments/peadm
+ExecStart=/opt/puppetlabs/bin/bolt plan show --modulepath /etc/puppetlabs/code/environments/<%= $environment %>/modules
 User=<%= $user %>
 Group=<%= $group %>
 WorkingDirectory=<%= $project_path %>

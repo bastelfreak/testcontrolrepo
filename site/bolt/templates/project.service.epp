@@ -10,14 +10,11 @@ Description=run bolt plans in project <%= $project %>
 Documentation=https://www.puppet.com/docs/bolt/latest/bolt
 Documentation=https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
 Documentation=https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html
+Documentation=https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html
 
 [Service]
-# use simple so it runs in the background
-Type=simple
+Type=exec
 ExecStart=/opt/puppetlabs/bin/bolt plan show --modulepath /etc/puppetlabs/code/environments/<%= $environment %>/modules
 User=<%= $user %>
 Group=<%= $group %>
 WorkingDirectory=<%= $project_path %>
-
-[Install]
-WantedBy=multi-user.target

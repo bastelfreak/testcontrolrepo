@@ -28,6 +28,7 @@ define bolt::project (
       home           => $project_path,
       gid            => $project,
       groups         => ['pe-puppet'], # required to read codedir
+      shell          => '/sbin/nologin',
     }
     group { $project:
       ensure => 'present',

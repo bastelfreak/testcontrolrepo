@@ -11,7 +11,7 @@
 class bolt (
   String[1] $version = '3.29.0',
   Stdlib::HTTPSUrl $base_url = 'https://yum.puppet.com/',
-  Stdlib::HTTPSUrl $release_package = "puppet-tools-release-el-${facts['os']['release']['major']}.noarch.rpm",
+  String[1] $release_package = "puppet-tools-release-el-${facts['os']['release']['major']}.noarch.rpm",
   String[1] $gpgkey = 'RPM-GPG-KEY-puppet-20250406',
   Boolean $use_release_package = true,
 ) {

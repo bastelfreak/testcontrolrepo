@@ -35,7 +35,7 @@ define bolt::project (
   file { $project_path:
     ensure => 'directory',
     owner  => $owner,
-    grop   => $group,
+    group  => $group,
   }
   $data = { 'project' => $project, 'user'=> $owner, 'group' => $group, 'project_path' => $project_path, 'environment' => 'peadm' }
   systemd::unit_file { "${project}@.service":

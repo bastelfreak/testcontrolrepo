@@ -18,7 +18,7 @@ define bolt::project (
   # installs bolt
   require bolt
 
-  $project_path = "${basepath}/${name}"
+  $project_path = "${basepath}${name}"
   if $manage_user {
     user { $project:
       ensure         => 'present',

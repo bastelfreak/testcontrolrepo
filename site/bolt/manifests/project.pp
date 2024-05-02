@@ -26,6 +26,8 @@ define bolt::project (
       purge_ssh_keys => true,
       system         => true,
       home           => $project_path,
+      gid            => $project,
+      groups         => ['pe-puppet'], # required to read codedir
     }
     group { $project:
       ensure => 'present',

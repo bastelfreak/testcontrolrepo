@@ -45,13 +45,16 @@ define bolt::project (
     group   => $group,
     content => { 'analytics' => false, 'name' => $project, }.stdlib::to_yaml,
   }
+  $inventory = { 'groups' => [{ 'name' => 'primary', 'targets' => [{ 'uri' => $facts['networking']['fqdn'] }] }] }.stdlib::to_yaml
   file { "${project_path}/inventory.yaml":
     ensure  => 'file',
     owner   => $owner,
     group   => $group,
+    content => $inventory,
   }
 
   $data = { 'project' => $project, 'user'=> $owner, 'group' => $group, 'project_path' => $project_path, 'environment' => 'peadm' }
+
   systemd::unit_file { "${project}@.service":
     content => epp("${module_name}/project.service.epp", $data),
   }

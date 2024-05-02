@@ -29,6 +29,7 @@ define bolt::project (
       gid            => $project,
       groups         => ['pe-puppet'], # required to read codedir
       shell          => '/sbin/nologin',
+      comment        => 'user to run bolt plans',
     }
     group { $project:
       ensure => 'present',

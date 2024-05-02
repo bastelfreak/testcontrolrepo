@@ -39,6 +39,13 @@ define bolt::project (
     owner  => $owner,
     group  => $group,
   }
+  file { "${project_path}/bolt-project.yaml":
+    ensure  => 'file',
+    owner   => $owner,
+    group   => $group,
+    content => { 'analytics' => false, 'name' => $project, }.stdlib::to_yaml,
+  }
+
   $data = { 'project' => $project, 'user'=> $owner, 'group' => $group, 'project_path' => $project_path, 'environment' => 'peadm' }
   systemd::unit_file { "${project}@.service":
     content => epp("${module_name}/project.service.epp", $data),

@@ -19,6 +19,8 @@ define bolt::project (
   # installs bolt
   require bolt
 
+  # ensure /tmp is mounted with +exec, otherwise we cannot call bolt later on
+
   $project_path = "${basepath}${name}"
   if $manage_user {
     user { $project:

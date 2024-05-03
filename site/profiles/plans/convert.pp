@@ -9,7 +9,8 @@ plan profiles::convert (
   Peadm::SingleTargetSpec $primary_host,
 ) {
 
-  $result = run_plan('pe_status_check::agent_state_summary', '_catch_errors' => true)
+  # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
+  $result = run_plan('pe_status_check::agent_state_summary')
 
   $table = format::table(
     {

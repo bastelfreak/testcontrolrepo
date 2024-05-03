@@ -15,8 +15,8 @@ plan profiles::convert (
   $table = format::table(
     {
       title => 'Puppet Agent states',
-      head  => $result.keys,
-      rows  => $result.map |$key, $data| {$data},
+      head  => ['status check', 'Nodes'],
+      rows  => $result.map |$key, $data| { [$key, [$data].flatten.join(', ')]},
     }
   )
   out::message('----------------------------')

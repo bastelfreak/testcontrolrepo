@@ -16,7 +16,7 @@ plan profiles::convert (
     {
       title => 'Puppet Agent states',
       head  => $result.keys,
-      rows  => $result,
+      rows  => $result.map |$key, $data| {$data},
     }
   )
   out::message('----------------------------')

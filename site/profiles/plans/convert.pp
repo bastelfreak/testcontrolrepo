@@ -11,4 +11,14 @@ plan profiles::convert (
 
   $result = run_plan('pe_status_check::agent_state_summary', '_catch_errors' => true)
   out::message($result)
+
+  $table = format::table(
+    {
+      title => 'Puppet Agent states',
+      head  => $result.keys
+      rows  => $result,
+    }
+  )
+  out::message('----------------------------')
+  out::message($table)
 }

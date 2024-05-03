@@ -48,6 +48,9 @@ plan profiles::convert (
   # [
   #   {
   #     "value": "6.28.0"
+  #   },
+  #   {
+  #     "value": "6.24.0"
   #   }
   # ]
   $aio_agent_versions = puppetdb_query('facts[value]{ name = "aio_agent_version" group by value}')

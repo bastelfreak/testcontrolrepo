@@ -39,7 +39,6 @@ plan profiles::convert (
     }
   )
 
-  out::message($summary_table)
   if $roles['primary'].count != 1 {
     out::message($summary_table)
     fail("we identified not exactly one primary, but: ${roles['primary'].join(', ')}.")

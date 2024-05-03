@@ -14,7 +14,7 @@ define bolt::project (
   Boolean $manage_user = true,
   Array[String[1]] $plans = [],
   String[1] $environment = 'peadm',
-  Stdlib::Absolutepath $modulepath = "/etc/puppetlabs/code/environments/${environment}/modules",
+  Array[Stdlib::Absolutepath] $modulepaths = ["/etc/puppetlabs/code/environments/${environment}/modules", "/etc/puppetlabs/code/environments/${environment}/site",],
 ) {
   # installs bolt
   require bolt
@@ -43,7 +43,7 @@ define bolt::project (
     group  => $group,
   }
 
-  $bolt_project = { 'analytics' => false, 'name' => $project, 'modulepath' => [$modulepath,], 'stream' => true }.stdlib::to_yaml
+  $bolt_project = { 'analytics' => false, 'name' => $project, 'modulepath' => $modulepaths, 'stream' => true }.stdlib::to_yaml
 
   file { "${project_path}/bolt-project.yaml":
     ensure  => 'file',

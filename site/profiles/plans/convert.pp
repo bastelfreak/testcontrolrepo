@@ -66,8 +66,8 @@ plan profiles::convert (
     fail("we identified not exactly one primary, but: ${roles['primary'].join(', ')}.")
   }
   ($roles - 'primary').each |$role, $nodes| {
-    out::message($summary_table)
     unless $nodes.empty {
+      out::message($summary_table)
       fail("role: ${role}: We found ${nodes.join(', ')}. We only support a single primary")
     }
   }

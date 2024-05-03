@@ -14,6 +14,7 @@ define bolt::project (
   Boolean $manage_user = true,
   Array[String[1]] $plans = [],
   String[1] $environment = 'peadm',
+  Stdlib::Absolutepath $modulepath = "/etc/puppetlabs/code/environments/${environment}",
 ) {
   # installs bolt
   require bolt
@@ -41,13 +42,18 @@ define bolt::project (
     owner  => $owner,
     group  => $group,
   }
+
+  $bolt_project = { 'analytics' => false, 'name' => $project, 'modulepath' => $modulepath, 'stream' => true }.stdlib::to_yaml
+
   file { "${project_path}/bolt-project.yaml":
     ensure  => 'file',
     owner   => $owner,
     group   => $group,
-    content => { 'analytics' => false, 'name' => $project, }.stdlib::to_yaml,
+    content => $bolt_project,
   }
-  $inventory = { 'groups' => [{ 'name' => 'primary', 'targets' => [{ 'uri' => $facts['networking']['fqdn'] }] }] }.stdlib::to_yaml
+
+  $inventory = { 'groups' => [{ 'name' => 'primary', 'targets' => [{ 'name' => $facts['networking']['fqdn'], 'uri' => 'local://localhost' }] }] }.stdlib::to_yaml
+
   file { "${project_path}/inventory.yaml":
     ensure  => 'file',
     owner   => $owner,

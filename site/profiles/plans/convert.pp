@@ -10,6 +10,7 @@ plan profiles::convert (
 ) {
 
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
+  # ToDo: Repeat for pe_status_check::infra_role_summary
   $result = run_plan('pe_status_check::agent_state_summary')
 
   $table = format::table(

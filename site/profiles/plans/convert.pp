@@ -74,7 +74,7 @@ plan profiles::convert (
 
   # Get facts from all nodes for various checks
   # ToDo: this calls the facts task and that dumps all facts to stdout which is really stupid
-  run_plan('facts', 'targets' => $primary_host)
+  run_plan('facts', 'targets'                 => $primary_host)
 
   # ensure we're on the suiteable PE version
   $pe_build = get_target($primary_host).facts['pe_build']
@@ -103,5 +103,5 @@ plan profiles::convert (
   #   - do we have the correct bolt version
   #   - are all nodes reachable
   # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
-  run_plan('peadm::convert', { 'primary_host' => $primary_host })
+  run_plan('peadm::convert', { 'primary_host' => $primary_host, '_run_as' => 'root'})
 }

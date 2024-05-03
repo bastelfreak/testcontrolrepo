@@ -15,7 +15,7 @@ plan profiles::convert (
   $table = format::table(
     {
       title => 'Puppet Agent states',
-      head  => $result.keys
+      head  => $result.keys,
       rows  => $result,
     }
   )

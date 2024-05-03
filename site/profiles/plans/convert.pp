@@ -8,7 +8,6 @@
 plan profiles::convert (
   Peadm::SingleTargetSpec $primary_host,
 ) {
-
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
   # ToDo: Repeat for pe_status_check::infra_role_summary
   $states = run_plan('pe_status_check::agent_state_summary')
@@ -17,13 +16,13 @@ plan profiles::convert (
   file::write('/opt/peadmmig/agent_state_summary_before_convert.json', $states.stdlib::to_json_pretty)
 
   # ToDo: fail() vs fail_plan()?
-  if $result['unhealthy_counter'] > 0 {
+  if $states['unhealthy_counter'] > 0 {
     # output node status if we are unhealthy, otherwise keep stdout clean
     $states_table = format::table(
       {
         title => 'Puppet Agent states',
         head  => ['status check', 'Nodes'],
-        rows  => $states.map |$key, $data| { [$key, [$data].flatten.join(', ')]},
+        rows  => $states.map |$key, $data| { [$key, [$data].flatten.join(', ')] },
       }
     )
     out::message($states_table)
@@ -36,7 +35,7 @@ plan profiles::convert (
     {
       title => 'PE infrastructure role summary',
       head  => ['Roles', 'Nodes'],
-      rows  => $roles.map |$key, $data| { [$key, $data.join(', ')]},
+      rows  => $roles.map |$key, $data| { [$key, $data.join(', ')] },
     }
   )
 

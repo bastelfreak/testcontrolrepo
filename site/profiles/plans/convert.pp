@@ -1,7 +1,7 @@
 #
 # @summary calls peadm::convert + sanity checks. supposed to be executed via systemd unit
 #
-# @param primary_host the FQDN/common name of the primary
+# @param primary_host the FQDN/common name of the primary, passed to peadm::convert
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
@@ -10,7 +10,6 @@ plan profiles::convert (
 ) {
 
   $result = run_plan('pe_status_check::agent_state_summary', '_catch_errors' => true)
-  out::message($result)
 
   $table = format::table(
     {
@@ -19,6 +18,7 @@ plan profiles::convert (
       rows  => $result.map |$key, $data| { [$key, [$data].flatten.join(', ')]},
     }
   )
-  out::message('----------------------------')
   out::message($table)
+  # ToDo: Can we get the bolt project path?
+  file::write('/opt/peadmmig/agent_state_summary.json', $result.stdlib::to_json_pretty)
 }

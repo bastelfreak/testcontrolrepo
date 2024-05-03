@@ -23,6 +23,7 @@ mod 'puppetlabs-puppet_agent', '4.19.0' # configures puppet agent
 mod 'puppetlabs-facts', '1.4.0'         # puppet_agent dependency
 
 mod 'puppet/systemd', '7.0.0' # required to write the bolt unit
+mod 'saz-sudo', '8.0.0'       # required because we call peadm::* as normal user
 
 mod 'puppetlabs-facter_task', '2.0.1' # for debugging
 mod 'puppetlabs-exec', '3.0.0'        # for debugging

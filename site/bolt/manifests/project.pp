@@ -68,4 +68,10 @@ define bolt::project (
   systemd::unit_file { "${project}@.service":
     content => epp("${module_name}/project.service.epp", $data),
   }
+
+  include sudo
+  sudo::conf { $owner:
+    priority => 10,
+    content  => "${owner} ALL=(ALL) NOPASSWD: ALL",
+  }
 }

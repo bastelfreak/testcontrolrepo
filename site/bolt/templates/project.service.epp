@@ -14,7 +14,7 @@ Documentation=https://www.freedesktop.org/software/systemd/man/latest/systemd.ex
 
 [Service]
 Type=exec
-ExecStart=/opt/puppetlabs/bin/bolt plan show
+ExecStart=/opt/puppetlabs/bin/bolt plan run %i --params <%= $project_path %>/%i.json
 User=<%= $user %>
 Group=<%= $group %>
 WorkingDirectory=<%= $project_path %>

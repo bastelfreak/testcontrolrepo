@@ -11,27 +11,49 @@ plan profiles::convert (
 
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
   # ToDo: Repeat for pe_status_check::infra_role_summary
-  $result = run_plan('pe_status_check::agent_state_summary')
+  $states = run_plan('pe_status_check::agent_state_summary')
 
-  $table = format::table(
-    {
-      title => 'Puppet Agent states',
-      head  => ['status check', 'Nodes'],
-      rows  => $result.map |$key, $data| { [$key, [$data].flatten.join(', ')]},
-    }
-  )
   # ToDo: Can we get the bolt project path?
-  file::write('/opt/peadmmig/agent_state_summary_before_convert.json', $result.stdlib::to_json_pretty)
+  file::write('/opt/peadmmig/agent_state_summary_before_convert.json', $states.stdlib::to_json_pretty)
 
   # ToDo: fail() vs fail_plan()?
   if $result['unhealthy_counter'] > 0 {
     # output node status if we are unhealthy, otherwise keep stdout clean
-    out::message($table)
-    # ToDo: does systemctl status indicate successful vs failed bolt rns?
-    fail("we have ${$result['unhealthy_counter']} unhealthy nodes")
+    $states_table = format::table(
+      {
+        title => 'Puppet Agent states',
+        head  => ['status check', 'Nodes'],
+        rows  => $states.map |$key, $data| { [$key, [$data].flatten.join(', ')]},
+      }
+    )
+    out::message($states_table)
+    fail("we have ${$states['unhealthy_counter']} unhealthy nodes")
+  }
+
+  $roles = run_plan('pe_status_check::infra_role_summary')
+  file::write('/opt/peadmmig/infra_role_summary_before_convert.json', $roles.stdlib::to_json_pretty)
+  $summary_table = format::table(
+    {
+      title => 'PE infrastructure role summary',
+      head  => ['Roles', 'Nodes'],
+      rows  => $roles.map |$key, $data| { [$key, $data.join(', ')]},
+    }
+  )
+
+  out::message($summary_table)
+  if $roles['primary'].count != 1 {
+    out::message($summary_table)
+    fail("we identified not exactly one primary, but: ${roles['primary'].join(', ')}.")
+  }
+  ($roles - 'primary').each |$role, $nodes| {
+    out::message($summary_table)
+    unless $nodes.empty {
+      fail("role: ${role}: We found ${nodes.join(', ')}. We only support a single primary")
+    }
   }
 
   # Get facts from all nodes for various checks
+  # ToDo: this calls the facts task and that dumps all facts to stdout which is really stupid
   run_plan('facts', 'targets' => $primary_host)
 
   # ensure we're on the suiteable PE version

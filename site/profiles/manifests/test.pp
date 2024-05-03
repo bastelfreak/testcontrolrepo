@@ -1,10 +1,15 @@
 #
-# @summary demo profile to configure bolt
+# @summary demo profile to configure bolt for peadm convert
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
 class profiles::test {
-  bolt::project { 'peadmmig':
-    plans => ['convert', 'upgrade'],
+  # create a new bolt project
+  bolt::project { 'peadmmig': }
+
+  -> file { '/opt/peadmmig/convert.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'] }.stdlib::to_json_pretty,
   }
 }

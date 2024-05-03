@@ -102,5 +102,6 @@ plan profiles::convert (
   # peadm::convert does two more sanity checks:
   #   - do we have the correct bolt version
   #   - are all nodes reachable
+  # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
   run_plan('peadm::convert', { 'primary_host' => $primary_host })
 }

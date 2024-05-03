@@ -10,6 +10,20 @@ plan profiles::convert (
 ) {
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
   # ToDo: Repeat for pe_status_check::infra_role_summary
+  # {
+  #   "noop": [ ],
+  #   "corrective_changes": [ ],
+  #   "used_cached_catalog": [ ],
+  #   "failed": [ ],
+  #   "changed": [ ],
+  #   "unresponsive": [ ],
+  #   "responsive": [ "primary.lab.local" ],
+  #   "unhealthy": [ ],
+  #   "unhealthy_counter": 0,
+  #   "healthy": [ "primary.lab.local" ],
+  #   "healthy_counter": 1,
+  #   "total_counter": 1
+  # }
   $states = run_plan('pe_status_check::agent_state_summary')
 
   # ToDo: Can we get the bolt project path?
@@ -29,6 +43,14 @@ plan profiles::convert (
     fail("we have ${$states['unhealthy_counter']} unhealthy nodes")
   }
 
+  # {
+  #   "primary": [ "primary.lab.local" ],
+  #   "legacy_primary": [ ],
+  #   "replica": [ ],
+  #   "compiler": [ ],
+  #   "legacy_compiler": [ ],
+  #   "postgres": [ ]
+  # }
   $roles = run_plan('pe_status_check::infra_role_summary')
   file::write('/opt/peadmmig/infra_role_summary_before_convert.json', $roles.stdlib::to_json_pretty)
   $summary_table = format::table(
@@ -68,16 +90,17 @@ plan profiles::convert (
 
   # check if all agents are on the same puppet agent version
   # [
-  #   {
-  #     "value": "6.28.0"
-  #   },
-  #   {
-  #     "value": "6.24.0"
-  #   }
+  #   { "value": "6.28.0" },
+  #   { "value": "6.24.0" }
   # ]
   $aio_agent_versions = puppetdb_query('facts[value]{ name = "aio_agent_version" group by value}')
   if $aio_agent_versions.count > 1 {
     $versionstring = $aio_agent_versions.map |$version| { $version['value'] }.join(', ')
     fail("We have a version missmatch, we found the following puppet agent versions: ${$versionstring}. All nodes need to have the same version")
   }
+
+  # peadm::convert does two more sanity checks:
+  #   - do we have the correct bolt version
+  #   - are all nodes reachable
+  run_plan('peadm::convert', { 'primary_host' => $primary_host })
 }

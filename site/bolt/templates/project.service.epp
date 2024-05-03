@@ -18,4 +18,3 @@ ExecStart=/opt/puppetlabs/bin/bolt plan show
 User=<%= $user %>
 Group=<%= $group %>
 WorkingDirectory=<%= $project_path %>
-RemainAfterExit=true

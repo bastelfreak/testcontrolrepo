@@ -43,7 +43,7 @@ define bolt::project (
     group  => $group,
   }
 
-  $bolt_project = { 'analytics' => false, 'name' => $project, 'modulepath' => $modulepaths, 'stream' => true }.stdlib::to_yaml
+  $bolt_project = { 'analytics' => false, 'name' => $project, 'modulepath' => $modulepaths, 'stream' => true, 'puppetdb' => { 'server_urls' => ['http://127.0.0.1:8080'] } }.stdlib::to_yaml
 
   file { "${project_path}/bolt-project.yaml":
     ensure  => 'file',

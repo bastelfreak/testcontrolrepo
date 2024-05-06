@@ -5,7 +5,7 @@
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
-plan profiles::convert (
+plan profiles::upgrade (
   Peadm::SingleTargetSpec $primary_host,
   Peadm::Pe_version $version = '2021.7.7',
 ) {

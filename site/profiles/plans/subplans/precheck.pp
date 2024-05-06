@@ -28,8 +28,10 @@ plan profiles::subplans::precheck (
   # }
   $states = run_plan('pe_status_check::agent_state_summary')
 
+  # YYYY-MM-DD
+  $date = Timestamp().strftime('%Y-%m-%d')
   # ToDo: Can we get the bolt project path?
-  file::write('/opt/peadmmig/agent_state_summary_before_convert.json', $states.stdlib::to_json_pretty)
+  file::write("/opt/peadmmig/agent_state_summary_${date}.json", $states.stdlib::to_json_pretty)
 
   # ToDo: fail() vs fail_plan()?
   if $states['unhealthy_counter'] > 0 {
@@ -54,7 +56,7 @@ plan profiles::subplans::precheck (
   #   "postgres": [ ]
   # }
   $roles = run_plan('pe_status_check::infra_role_summary')
-  file::write('/opt/peadmmig/infra_role_summary_before_convert.json', $roles.stdlib::to_json_pretty)
+  file::write("/opt/peadmmig/infra_role_summary__${date}.json", $roles.stdlib::to_json_pretty)
   $summary_table = format::table(
     {
       title => 'PE infrastructure role summary',

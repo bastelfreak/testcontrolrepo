@@ -9,12 +9,11 @@ plan profiles::upgrade (
   Peadm::SingleTargetSpec $primary_host,
   Peadm::Pe_version $version = '2021.7.7',
 ) {
-
-  run_plan('profiles::subplans::precheck', {'primary_host' => $primary_host})
+  run_plan('profiles::subplans::precheck', { 'primary_host' => $primary_host })
 
   # peadm::convert does two more sanity checks:
   #   - do we have the correct bolt version
   #   - are all nodes reachable
   # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
-  run_plan('peadm::upgrade', { 'primary_host' => $primary_host, '_run_as' => 'root'})
+  run_plan('peadm::upgrade', { 'primary_host' => $primary_host, '_run_as' => 'root' })
 }

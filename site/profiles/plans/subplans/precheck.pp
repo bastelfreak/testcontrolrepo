@@ -26,7 +26,7 @@ plan profiles::subplans::precheck (
   #   "healthy_counter": 1,
   #   "total_counter": 1
   # }
-  $states = run_plan('pe_status_check::agent_state_summary')
+  $states = run_plan('pe_status_check::agent_state_summary', { 'log_healthy_nodes' => true })
 
   # YYYY-MM-DD
   $date = Timestamp().strftime('%Y-%m-%d')

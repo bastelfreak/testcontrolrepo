@@ -1,5 +1,5 @@
 #
-# @summary calls peadm::convert + sanity checks. supposed to be executed via systemd unit
+# @summary calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 #
 # @param primary_host the FQDN/common name of the primary, passed to peadm::convert
 #
@@ -7,6 +7,7 @@
 #
 plan profiles::convert (
   Peadm::SingleTargetSpec $primary_host,
+  Peadm::Pe_version $version = '2021.7.7',
 ) {
 
   run_plan('profiles::subplans::precheck', {'primary_host' => $primary_host})
@@ -15,5 +16,5 @@ plan profiles::convert (
   #   - do we have the correct bolt version
   #   - are all nodes reachable
   # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
-  run_plan('peadm::convert', { 'primary_host' => $primary_host, '_run_as' => 'root'})
+  run_plan('peadm::upgrade', { 'primary_host' => $primary_host, '_run_as' => 'root'})
 }

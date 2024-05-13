@@ -8,6 +8,6 @@ Facter.add(:codemanager_config) do
   path = '/opt/puppetlabs/server/data/code-manager/r10k.yaml'
   confine { File.exist? path }
   setcode do
-    YAML.safe_load(path)
+    YAML.load_file(path)
   end
 end

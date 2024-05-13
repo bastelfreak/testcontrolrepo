@@ -7,16 +7,16 @@ class profiles::cleanup {
     fail('\'puppet_enterprise::master::code_manager::sources\' needs to be set in Hiera')
   } else {
     # do some further validation. There should be one main repo with prefix=false and N repos with prefix=true
-    if count($sources) < 2 {
+    if $sources.length < 2 {
       fail('\'puppet_enterprise::master::code_manager::sources\' needs at least two repos')
     }
     $with_prefix = $sources.map |String[1] $name, Hash[String[1],Variant[String[1],Boolean]] $data| {
       $data['prefix'] == true
     }
-    if count($with_prefix) == 0 {
+    if $with_prefix.length == 0 {
       fail('\'puppet_enterprise::master::code_manager::sources\' needs 1 or more repos with prefix=>true')
     }
-    if (count($sources) - count($with_prefix)) != 1 {
+    if ($sources.length - $with_prefix.length) != 1 {
       fail('\'puppet_enterprise::master::code_manager::sources\' can only have one repo with prefix=>false')
     }
   }

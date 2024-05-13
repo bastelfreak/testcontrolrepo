@@ -17,7 +17,7 @@ class profiles::cleanup {
       fail('\'puppet_enterprise::master::code_manager::sources\' needs 1 or more repos with prefix=>true')
     }
     if ($sources.length - $with_prefix.length) != 1 {
-      fail('\'puppet_enterprise::master::code_manager::sources\' can only have one repo with prefix=>false')
+      fail("'puppet_enterprise::master::code_manager::sources\' can only have one repo with prefix=>false. But it's ${sources}")
     }
   }
   $group = 'PE Master'

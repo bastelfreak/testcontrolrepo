@@ -4,7 +4,7 @@
 class profiles::cleanup {
   $sources = lookup('puppet_enterprise::master::code_manager::sources', Hash[String[1],Hash[String[1],Variant[String[1],Boolean]]], 'deep', {})
   if $sources.empty {
-    fail('puppet_enterprise::master::code_manager::sources needs to be set in Hiera')
+    fail('\'puppet_enterprise::master::code_manager::sources\' needs to be set in Hiera')
   }
   $group = 'PE Master'
   $data = dig(node_groups($group))[$group]

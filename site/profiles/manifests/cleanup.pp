@@ -10,14 +10,14 @@ class profiles::cleanup {
     if $sources.length < 2 {
       fail('\'puppet_enterprise::master::code_manager::sources\' needs at least two repos')
     }
-    $with_prefix = $sources.map |String[1] $name, Hash[String[1],Variant[String[1],Boolean]] $data| {
+    $with_prefix = $sources.filter |String[1] $name, Hash[String[1],Variant[String[1],Boolean]] $data| {
       $data['prefix'] == true
     }
     if $with_prefix.length == 0 {
       fail('\'puppet_enterprise::master::code_manager::sources\' needs 1 or more repos with prefix=>true')
     }
     if ($sources.length - $with_prefix.length) != 1 {
-      fail("'puppet_enterprise::master::code_manager::sources\' can only have one repo with prefix=>false. But it's ${sources}")
+      fail("'puppet_enterprise::master::code_manager::sources\' can only have one repo with prefix=>false. But it's set to ${sources}")
     }
   }
   $group = 'PE Master'

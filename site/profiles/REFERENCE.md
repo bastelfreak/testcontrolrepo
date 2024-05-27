@@ -110,5 +110,5 @@ Data type: `Peadm::Pe_version`
 
 
 
-Default value: `'2021.7.7'`
+Default value: `'2021.7.8'`
 

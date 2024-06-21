@@ -7,3 +7,6 @@ puppet_enterprise::master::code_manager::sources:
   baz:
     remote: 'https://github.com/voxpupuli/controlrepo'
     prefix: true
+
+puppet_enterprise::profile::master::versioned_deploys: true
+puppet_enterprise::profile::plan_executor::versioned_deploys: true

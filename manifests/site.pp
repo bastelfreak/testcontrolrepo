@@ -51,11 +51,11 @@ class { 'rangee':
   stage => 'post',
 }
 
-class r10k {
-  package { 'pe-r10k':
+class bash {
+  package { 'bash':
     ensure => 'installed',
   }
 }
-class { 'r10k':
+class { 'bash':
   stage  => 'postpost',
 }

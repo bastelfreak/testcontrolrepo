@@ -1,5 +1,4 @@
 stage { 'pre': }
-stage { 'main': }
 stage { 'post': }
 stage { 'postpost': }
 

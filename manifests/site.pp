@@ -1,61 +1,24 @@
-stage { 'pre': }
-stage { 'post': }
-stage { 'postpost': }
+package { 'openssh':
+  ensure => 'installed',
+}
+package { 'htop':
+  ensure => 'installed',
+}
 
-Stage['pre'] -> Stage['main'] -> Stage['post'] -> Stage['postpost']
+file { '/tmp/numbers':
+  ensure => 'file',
+}
 
-class foo {
-  file { '/tmp/numbers':
-    ensure => 'file',
+$fpath = '/tmp/numbers'
+range(0, 4000).each |$element| {
+  $require = if ($element % 2) == 0 {
+    [File[$fpath],Package['openssh']]
+  } else {
+    [File[$fpath],Package['htop']]
   }
-}
-class { 'foo':
-  stage => 'pre',
-}
-
-class htop {
-  package { 'htop':
-    ensure => 'installed',
+  file_line { "${element}-${fpath}":
+    path    => $fpath,
+    line    => "${element}\n",
+    require => $require,
   }
-}
-class { 'htop':
-  stage  => 'pre',
-}
-
-class openssh {
-  package { 'openssh':
-    ensure => 'installed',
-  }
-}
-class { 'openssh':
-  stage  => 'main',
-}
-
-class rangee {
-  $fpath = '/tmp/numbers'
-  range(0, 4000).each |$element| {
-    $require = if ($element % 2) == 0 {
-      [File[$fpath],Package['openssh']]
-    } else {
-      [File[$fpath],Package['htop']]
-    }
-    file_line { "${element}-${fpath}":
-      path    => $fpath,
-      line    => "${element}\n",
-      require => $require,
-    }
-  }
-}
-
-class { 'rangee':
-  stage => 'post',
-}
-
-class bash {
-  package { 'bash':
-    ensure => 'installed',
-  }
-}
-class { 'bash':
-  stage  => 'postpost',
 }

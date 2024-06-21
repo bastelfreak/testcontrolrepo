@@ -19,7 +19,7 @@ package { 'openssh':
   ensure => 'installed',
   stage  => 'main',
 }
-range(0, 9000).each |$element| {
+range(0, 8000).each |$element| {
   $require = if ($element % 2) == 0 {
     [File[$fpath],Package['openssh']]
   } else {

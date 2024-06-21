@@ -11,4 +11,4 @@ puppet_enterprise::master::code_manager::sources:
 puppet_enterprise::profile::master::versioned_deploys: true
 puppet_enterprise::profile::plan_executor::versioned_deploys: true
 puppet_enterprise::profile::master::r10k_trace: true
-puppet_enterprise::master::code_manager:invalid_branches: 'correct'
+puppet_enterprise::master::code_manager::invalid_branches: 'correct'

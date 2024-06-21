@@ -6,9 +6,13 @@ Stage['pre'] -> Stage['main'] -> Stage['post'] -> Stage['postpost']
 
 $fpath = '/tmp/numbers'
 
-file { $fpath:
-  ensure => 'file',
-  stage  => 'pre',
+class foo {
+  file { $fpath:
+    ensure => 'file',
+  }
+}
+class { 'foo':
+  stage => 'pre',
 }
 package { 'htop':
   ensure => 'installed',

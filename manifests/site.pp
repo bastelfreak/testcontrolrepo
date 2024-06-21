@@ -4,39 +4,58 @@ stage { 'postpost': }
 
 Stage['pre'] -> Stage['main'] -> Stage['post'] -> Stage['postpost']
 
-$fpath = '/tmp/numbers'
-
 class foo {
-  file { $fpath:
+  file { '/tmp/numbers':
     ensure => 'file',
   }
 }
 class { 'foo':
   stage => 'pre',
 }
-package { 'htop':
-  ensure => 'installed',
+
+class htop {
+  package { 'htop':
+    ensure => 'installed',
+  }
+}
+class { 'htop':
   stage  => 'pre',
 }
-package { 'openssh':
-  ensure => 'installed',
+
+class openssh {
+  package { 'openssh':
+    ensure => 'installed',
+  }
+}
+class { 'openssh':
   stage  => 'main',
 }
-range(0, 8000).each |$element| {
-  $require = if ($element % 2) == 0 {
-    [File[$fpath],Package['openssh']]
-  } else {
-    [File[$fpath],Package['htop']]
-  }
-  file_line { "${element}-${fpath}":
-    path    => $fpath,
-    line    => "${element}\n",
-    require => $require,
-    stage   => 'post',
+
+class rangee {
+  $fpath = '/tmp/numbers'
+  range(0, 8000).each |$element| {
+    $require = if ($element % 2) == 0 {
+      [File[$fpath],Package['openssh']]
+    } else {
+      [File[$fpath],Package['htop']]
+    }
+    file_line { "${element}-${fpath}":
+      path    => $fpath,
+      line    => "${element}\n",
+      require => $require,
+    }
   }
 }
 
-package { 'pe-r10k':
-  ensure => 'installed',
+class { 'rangee':
+  stage => 'post',
+}
+
+class r10k {
+  package { 'pe-r10k':
+    ensure => 'installed',
+  }
+}
+class { 'r10k':
   stage  => 'postpost',
 }

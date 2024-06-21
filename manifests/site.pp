@@ -33,7 +33,7 @@ class { 'openssh':
 
 class rangee {
   $fpath = '/tmp/numbers'
-  range(0, 8000).each |$element| {
+  range(0, 7000).each |$element| {
     $require = if ($element % 2) == 0 {
       [File[$fpath],Package['openssh']]
     } else {

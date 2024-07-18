@@ -17,6 +17,6 @@ class profiles::test (
   -> file { '/opt/peadmmig/profiles::upgrade.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
-    content => {'version' => $version}.stdlib::to_json_pretty,
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version }.stdlib::to_json_pretty,
   }
 }

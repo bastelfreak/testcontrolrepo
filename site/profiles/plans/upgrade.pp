@@ -7,7 +7,7 @@
 #
 plan profiles::upgrade (
   Peadm::SingleTargetSpec $primary_host,
-  Peadm::Pe_version $version = '2021.7.7',
+  Peadm::Pe_version $version = '2021.7.8',
 ) {
   run_plan('profiles::subplans::precheck', { 'primary_host' => $primary_host })
 

@@ -33,7 +33,7 @@ plan profiles::subplans::precheck (
   # ToDo: Can we get the bolt project path?
   # Jeffrey Clark wants to propose a PR to extlib
   $state_path = "/opt/peadmmig/agent_state_summary__${date}.json"
-  out::debug("profiles::subplans::precheck: writing ${state_path}")
+  out::verbose("profiles::subplans::precheck: writing ${state_path}")
   file::write("/opt/peadmmig/agent_state_summary_${date}.json", $states.stdlib::to_json_pretty)
 
   # ToDo: fail() vs fail_plan()?
@@ -60,7 +60,7 @@ plan profiles::subplans::precheck (
   # }
   $roles = run_plan('pe_status_check::infra_role_summary')
   $summary_path = "/opt/peadmmig/infra_role_summary__${date}.json"
-  out::debug("profiles::subplans::precheck: writing ${summary_path}")
+  out::verbose("profiles::subplans::precheck: writing ${summary_path}")
   file::write($summary_path, $roles.stdlib::to_json_pretty)
   $summary_table = format::table(
     {

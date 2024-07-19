@@ -15,4 +15,6 @@ plan profiles::convert (
   #   - are all nodes reachable
   # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
   run_plan('peadm::convert', { 'primary_host' => $primary_host, '_run_as' => 'root' })
+
+  # ToDo: run puppet again here
 }

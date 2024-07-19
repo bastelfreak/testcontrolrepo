@@ -30,7 +30,7 @@ class profiles::cleanup {
     $group = 'PE Master'
     $node_group = dig(node_groups($group))[$group]
     $classes = dig($node_group, 'classes')
-    $data = dig($node_group, 'data')
+    $data = dig($node_group, 'config_data')
     if $classes {
       if dig($classes, 'puppet_enterprise::profile::master', 'r10k_remote') {
         echo { "r10k_remote set in node group ${group} in classes section, removing it":
@@ -61,10 +61,10 @@ class profiles::cleanup {
         # delete() comes from stdlib
         # https://github.com/puppetlabs/puppetlabs-stdlib/blob/main/lib/puppet/parser/functions/delete.rb
         node_group { $group:
-          data           => $data.delete('r10k_remote'),
+          config_data    => $data.delete('r10k_remote'),
           purge_behavior => 'data',
           # purge read only attributes + data
-          *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id','data',],
+          *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],
         }
       }
     }

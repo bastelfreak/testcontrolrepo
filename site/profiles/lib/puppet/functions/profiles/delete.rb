@@ -1,7 +1,7 @@
 # return absolute path to bolt project directory
 # @see https://stackoverflow.com/a/35785227
 #
-puppet::functions.create_function(:'profiles::delete') do
+Puppet::Functions.create_function(:'profiles::delete') do
   # @example calling the function
   #   boltdir()
   dispatch :delete do

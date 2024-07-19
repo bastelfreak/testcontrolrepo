@@ -58,7 +58,8 @@ class profiles::cleanup {
         echo { "r10k_remote set in node group ${group} in data section, removing it":
           withpath => false,
         }
-        $d = $data.filter |$items| { $items[0] == 'r10k_remote' }
+        # keep every parameter except r10k_remote
+        $d = $data.filter |$items| { $items[0] != 'r10k_remote' }
         echo { "${d}":
           withpath => false,
         }

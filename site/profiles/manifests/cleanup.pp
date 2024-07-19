@@ -58,10 +58,9 @@ class profiles::cleanup {
         echo { "r10k_remote set in node group ${group} in data section, removing it":
           withpath => false,
         }
-        # delete() comes from stdlib
-        # https://github.com/puppetlabs/puppetlabs-stdlib/blob/main/lib/puppet/parser/functions/delete.rb
+        $d= $data.filter |$items| { $items['r10k_remote'] }
         $d = $data - 'r10k_remote'
-        echo { "${d}":
+        echo { $d:
           withpath => false,
         }
         node_group { $group:

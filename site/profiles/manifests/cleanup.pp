@@ -21,11 +21,14 @@ class profiles::cleanup {
     }
   }
 
-  # cleanup the node classifier data only when the hiera settings are already written
-  # this ensures that we don't brick our deployment (assume the initial run removes the data from the node classifier and wants to update code-manager config via hiera but that fails.
+
+  # the fact needs to be present. if it's missing something is wrong
   unless $facts['codemanager_config'] {
     fail('codemanager_config fact is missing')
   }
+
+  # cleanup the node classifier data only when the hiera settings are already written
+  # this ensures that we don't brick our deployment (assume the initial run removes the data from the node classifier and wants to update code-manager config via hiera but that fails.
   if fact('codemanager_config.sources') {
     $group = 'PE Master'
     $node_group = dig(node_groups($group))[$group]
@@ -53,31 +56,29 @@ class profiles::cleanup {
       }
     }
     if $data {
-      if dig($data, 'puppet_enterprise::profile::master') {
-        echo { "puppet_enterprise::profile::master set in node group ${group} in data section. Please move it to Hiera: ${data['puppet_enterprise::profile::master']}":
+      if dig($data, 'puppet_enterprise::profile::master', 'r10k_remote') or dig($data, 'puppet_enterprise::profile::master', 'code_manager_auto_configure') {
+        echo { "r10k_remote and/or code_manager_auto_configure set in node group ${group} in data section, removing it":
           withpath => false,
         }
-        if dig($data, 'puppet_enterprise::profile::master', 'r10k_remote') or dig($data, 'puppet_enterprise::profile::master', 'code_manager_auto_configure') {
-          echo { "r10k_remote and/or code_manager_auto_configure set in node group ${group} in data section, removing it":
+        # keep every parameter except r10k_remote and code_manager_auto_configure
+        # r10k_remote isn't needed anymore. code_manager_auto_configure should be set on the classes hash (default) or Hiera
+        # We need to purge it here because the PE upgrade will add it to the class if it's missing there.
+        # And when data is in config_data and classes it conflicts and the upgrade aborts
+        $data_without_master = $data - 'puppet_enterprise::profile::master'
+        $master_data = { 'puppet_enterprise::profile::master' => $data['puppet_enterprise::profile::master'] - ['r10k_remote', 'code_manager_auto_configure'] }
+        # if $master['puppet_enterprise::profile::master'] is am empty hash because it only contained r10k_remote and/or code_manager_auto_configure,
+        # we will remove it completely
+        # Otherwise we will add the reduced hash $master to $data_without_master
+        if $master_data['puppet_enterprise::profile::master'].empty {
+          $new_data = $data_without_master
+        } else {
+          echo { "puppet_enterprise::profile::master set in node group ${group} in data section. Please move it to Hiera: ${master_data}":
             withpath => false,
           }
-          # keep every parameter except r10k_remote and code_manager_auto_configure
-          # r10k_remote isn't needed anymore. code_manager_auto_configure should be set on the classes hash (default) or Hiera
-          # We need to purge it here because the PE upgrade will add it to the class if it's missing there.
-          # And when data is in config_data and classes it conflicts and the upgrade aborts
-          $data_without_master = $data - 'puppet_enterprise::profile::master'
-          $master_data = { 'puppet_enterprise::profile::master' => $data['puppet_enterprise::profile::master'] - ['r10k_remote', 'code_manager_auto_configure'] }
-          # if $master['puppet_enterprise::profile::master'] is am empty hash because it only contained r10k_remote and/or code_manager_auto_configure,
-          # we will remove it completely
-          # Otherwise we will add the reduced hash $master to $data_without_master
-          $new_data = if $master_data['puppet_enterprise::profile::master'].empty {
-            $data_without_master
-          } else {
-            $data_without_master + $master_data
-          }
-          # flag that we use later to determine if we want to update the node_group
-          $flag_data = true
+          $new_data = $data_without_master + $master_data
         }
+        # flag that we use later to determine if we want to update the node_group
+        $flag_data = true
       } else {
         $new_data = $data
         $flag_data = false

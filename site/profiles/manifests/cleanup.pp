@@ -38,13 +38,16 @@ class profiles::cleanup {
         }
         $master = { 'puppet_enterprise::profile::master' => $classes['puppet_enterprise::profile::master'] - 'r10k_remote' }
         $new_classes = $classes + $master
+        $flag_data = true
       } else {
         $new_classes = $classes
+        $flag_data = false
       }
       # flag that we use later to determine if we want to update the node_group
       $flag_classes = true
     } else {
       $new_classes = undef
+      $flag_data = false
       # only for debugging, remove later
       echo { "no classes hash in node group ${group}":
         withpath => false,
@@ -78,9 +81,11 @@ class profiles::cleanup {
         }
       } else {
         $new_data = $data
+        $flag_data = false
       }
     } else {
       $new_data = undef
+      $flag_data = false
       # only for debugging, remove later
       echo { "no data hash in node group ${group}":
         withpath => false,

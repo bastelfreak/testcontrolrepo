@@ -60,7 +60,7 @@ class profiles::cleanup {
         }
         # delete() comes from stdlib
         # https://github.com/puppetlabs/puppetlabs-stdlib/blob/main/lib/puppet/parser/functions/delete.rb
-        $d = $data.delete('r10k_remote')
+        $d = $data - 'r10k_remote'
         echo { "${d}":
           withpath => false,
         }

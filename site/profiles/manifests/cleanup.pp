@@ -59,7 +59,7 @@ class profiles::cleanup {
           withpath => false,
         }
         $d = $data.filter |$items| { $items[0] == 'r10k_remote' }
-        echo { $d:
+        echo { "${d}":
           withpath => false,
         }
         node_group { $group:

@@ -5,7 +5,7 @@
 #
 class profiles::test (
   Peadm::Pe_version $version = '2021.7.8',
-){
+) {
   # create a new bolt project
   bolt::project { 'peadmmig': }
 

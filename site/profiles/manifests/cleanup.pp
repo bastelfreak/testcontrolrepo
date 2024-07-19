@@ -11,6 +11,9 @@ class profiles::cleanup {
   $classes = dig($data, 'classes')
   if $classes {
     if dig($classes, 'puppet_enterprise::profile::master', 'r10k_remote') {
+      echo { "r10k_remote not set in node group ${group}":
+        withpath => false,
+      }
       $master = { 'puppet_enterprise::profile::master' => $classes['puppet_enterprise::profile::master'] - 'r10k_remote' }
       $new_classes = $classes + $master
       node_group { $group:
@@ -18,10 +21,6 @@ class profiles::cleanup {
         purge_behavior => 'classes',
         # purge read only attributes + classes
         *              => $data - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id','classes',],
-      }
-    } else {
-      echo { "r10k_remote not set in node group ${group}":
-        withpath => false,
       }
     }
   } else {

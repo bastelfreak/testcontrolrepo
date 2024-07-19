@@ -23,6 +23,9 @@ class profiles::cleanup {
 
   # cleanup the node classifier data only when the hiera settings are already written
   # this ensures that we don't brick our deployment (assume the initial run removes the data from the node classifier and wants to update code-manager config via hiera but that fails.
+  unless $facts['codemanager_config'] {
+    fail('codemanager_config fact is missing')
+  }
   if fact('codemanager_config.sources') {
     $group = 'PE Master'
     $node_group = dig(node_groups($group))[$group]

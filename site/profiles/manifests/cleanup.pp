@@ -41,6 +41,8 @@ class profiles::cleanup {
       } else {
         $new_classes = $classes
       }
+      # flag that we use later to determine if we want to update the node_group
+      $flag_classes = true
     } else {
       $new_classes = undef
       # only for debugging, remove later
@@ -71,6 +73,8 @@ class profiles::cleanup {
           } else {
             $data_without_master + $master_data
           }
+          # flag that we use later to determine if we want to update the node_group
+          $flag_data = true
         }
       } else {
         $new_data = $data
@@ -82,12 +86,19 @@ class profiles::cleanup {
         withpath => false,
       }
     }
-    node_group { $group:
-      data           => $new_data,
-      classes        => $new_classes,
-      purge_behavior => 'all',
-      # purge read only attributes + data
-      *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],
+    # we use a condition here because we don't want to hammer the classifier API when we don't expect changes
+    # This is a safeguard to ensure that we don't modify the node group by accident. Out input comes in part from node_group(),
+    # which has a bit of a different output compared to the input of the node_group resource
+    # https://github.com/puppetlabs/puppetlabs-node_manager/issues/92
+    # Also the node_group isn't idempotent. It tries to set the parent group always to the UID of the group, but resource prefetching provides us the name...
+    if $flag_classes or $flag_data {
+      node_group { $group:
+        data           => $new_data,
+        classes        => $new_classes,
+        purge_behavior => 'all',
+        # purge read only attributes + data
+        *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],
+      }
     }
   } else {
     echo { '\'puppet_enterprise::master::code_manager::sources\' in hiera but not yet written to the config. Not updating PE classifier node groups':

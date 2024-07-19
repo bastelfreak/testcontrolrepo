@@ -61,7 +61,7 @@ class profiles::cleanup {
         # delete() comes from stdlib
         # https://github.com/puppetlabs/puppetlabs-stdlib/blob/main/lib/puppet/parser/functions/delete.rb
         node_group { $group:
-          config_data    => $data.delete('r10k_remote'),
+          data           => $data.delete('r10k_remote'),
           purge_behavior => 'data',
           # purge read only attributes + data
           *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],

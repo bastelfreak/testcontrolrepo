@@ -59,12 +59,10 @@ class profiles::cleanup {
           withpath => false,
         }
         # keep every parameter except r10k_remote
-        $d = $data.filter |$items| { $items[0] != 'r10k_remote' }
-        echo { "${d}":
-          withpath => false,
-        }
+        $master = { 'puppet_enterprise::profile::master' => $data['puppet_enterprise::profile::master'] - 'r10k_remote' }
+        $new_data = $data + $master
         node_group { $group:
-          data           => $d,
+          data           => $new_data,
           purge_behavior => 'data',
           # purge read only attributes + data
           *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],

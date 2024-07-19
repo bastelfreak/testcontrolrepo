@@ -63,14 +63,14 @@ class profiles::cleanup {
         # We need to purge it here because the PE upgrade will add it to the class if it's missing there.
         # And when data is in config_data and classes it conflicts and the upgrade aborts
         $data_without_master = $data - 'puppet_enterprise::profile::master'
-        $master = { 'puppet_enterprise::profile::master' => $data['puppet_enterprise::profile::master'] - ['r10k_remote', 'code_manager_auto_configure'] }
+        $master_data = { 'puppet_enterprise::profile::master' => $data['puppet_enterprise::profile::master'] - ['r10k_remote', 'code_manager_auto_configure'] }
         # if $master['puppet_enterprise::profile::master'] is am empty hash because it only contained r10k_remote and/or code_manager_auto_configure,
         # we will remove it completely
         # Otherwise we will add the reduced hash $master to $data_without_master
-        $new_data = if $master['puppet_enterprise::profile::master'].empty {
+        $new_data = if $master_data['puppet_enterprise::profile::master'].empty {
           $data_without_master
         } else {
-          $data_without_master + $master
+          $data_without_master + $master_data
         }
         node_group { $group:
           data           => $new_data,

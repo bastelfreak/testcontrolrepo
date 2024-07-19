@@ -19,4 +19,14 @@ class profiles::test (
     group   => 'peadmmig',
     content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version }.stdlib::to_json_pretty,
   }
+  -> file { '/opt/peadmmig/profiles::upgradeto2021.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2021' }.stdlib::to_json_pretty,
+  }
+  -> file { '/opt/peadmmig/profiles::upgradeto2023.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2023' }.stdlib::to_json_pretty,
+  }
 }

@@ -16,5 +16,7 @@ plan profiles::convert (
   # ToDo: download the correct pe installer and provide that to the plan <- for peadm::upgrade
   run_plan('peadm::convert', { 'primary_host' => $primary_host, '_run_as' => 'root' })
 
-  # ToDo: run puppet again here
+  # peadm::upgrade doesn't do a final puppet run without changed resources
+  # To have a clean report, we trigger a puppet run here
+  run_task('peadm::puppet_runonce', $primary_host)
 }

@@ -109,6 +109,5 @@ class profiles::cleanup {
     echo { '\'puppet_enterprise::master::code_manager::sources\' in hiera but not yet written to the config. Not updating PE classifier node groups':
       withpath => false,
     }
-    $new_data = undef
   }
 }

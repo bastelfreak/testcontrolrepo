@@ -21,7 +21,6 @@ class profiles::cleanup {
     }
   }
 
-
   # the fact needs to be present. if it's missing something is wrong
   unless $facts['codemanager_config'] {
     fail('codemanager_config fact is missing')

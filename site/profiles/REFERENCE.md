@@ -12,14 +12,16 @@
 ### Functions
 
 * [`profiles::boltdir`](#profiles--boltdir): Return absolute path to bolt project directory
+* [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
 
 ### Plans
 
 #### Public Plans
 
-* [`profiles::convert`](#profiles--convert): calls peadm::convert + sanity checks. supposed to be executed via systemd unit
 * [`profiles::test`](#profiles--test)
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+* [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+* [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 
 #### Private Plans
 
@@ -34,6 +36,20 @@ removes r10k_remote from the master node group
 ### <a name="profiles--test"></a>`profiles::test`
 
 demo profile to configure bolt for peadm convert
+
+#### Parameters
+
+The following parameters are available in the `profiles::test` class:
+
+* [`version`](#-profiles--test--version)
+
+##### <a name="-profiles--test--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+
+
+Default value: `'2021.7.8'`
 
 ## Functions
 
@@ -65,23 +81,47 @@ Returns: `Stdlib::Absolutepath`
 boltdir()
 ```
 
+### <a name="profiles--delete"></a>`profiles::delete`
+
+Type: Ruby 4.x API
+
+return absolute path to bolt project directory
+
+#### Examples
+
+##### calling the function
+
+```puppet
+boltdir()
+```
+
+#### `profiles::delete(Variant[Array,Hash] $input, String[1] $key)`
+
+return absolute path to bolt project directory
+
+Returns: `Variant[Array,Hash]`
+
+##### Examples
+
+###### calling the function
+
+```puppet
+boltdir()
+```
+
+##### `input`
+
+Data type: `Variant[Array,Hash]`
+
+
+
+##### `key`
+
+Data type: `String[1]`
+
+
+
 ## Plans
-
-### <a name="profiles--convert"></a>`profiles::convert`
-
-calls peadm::convert + sanity checks. supposed to be executed via systemd unit
-
-#### Parameters
-
-The following parameters are available in the `profiles::convert` plan:
-
-* [`primary_host`](#-profiles--convert--primary_host)
-
-##### <a name="-profiles--convert--primary_host"></a>`primary_host`
-
-Data type: `Peadm::SingleTargetSpec`
-
-the FQDN/common name of the primary, passed to peadm::convert
 
 ### <a name="profiles--test"></a>`profiles::test`
 
@@ -111,4 +151,54 @@ Data type: `Peadm::Pe_version`
 
 
 Default value: `'2021.7.8'`
+
+### <a name="profiles--upgradeto2021"></a>`profiles::upgradeto2021`
+
+calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::upgradeto2021` plan:
+
+* [`primary_host`](#-profiles--upgradeto2021--primary_host)
+* [`version`](#-profiles--upgradeto2021--version)
+
+##### <a name="-profiles--upgradeto2021--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
+
+##### <a name="-profiles--upgradeto2021--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+
+
+Default value: `'2021.7.8'`
+
+### <a name="profiles--upgradeto2023"></a>`profiles::upgradeto2023`
+
+calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::upgradeto2023` plan:
+
+* [`primary_host`](#-profiles--upgradeto2023--primary_host)
+* [`version`](#-profiles--upgradeto2023--version)
+
+##### <a name="-profiles--upgradeto2023--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
+
+##### <a name="-profiles--upgradeto2023--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+
+
+Default value: `'2023.7.0'`
 

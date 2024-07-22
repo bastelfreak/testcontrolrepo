@@ -102,7 +102,7 @@ class profiles::cleanup {
         classes        => $new_classes,
         purge_behavior => 'all',
         # purge read only attributes + data
-        *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes'],
+        *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes', 'deleted'],
       }
     }
   } else {

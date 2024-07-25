@@ -18,7 +18,7 @@
 
 #### Public Plans
 
-* [`profiles::test`](#profiles--test)
+* [`profiles::convert`](#profiles--convert): calls peadm::convert + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
@@ -123,9 +123,21 @@ Data type: `String[1]`
 
 ## Plans
 
-### <a name="profiles--test"></a>`profiles::test`
+### <a name="profiles--convert"></a>`profiles::convert`
 
-The profiles::test class.
+calls peadm::convert + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::convert` plan:
+
+* [`primary_host`](#-profiles--convert--primary_host)
+
+##### <a name="-profiles--convert--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
 
 ### <a name="profiles--upgrade"></a>`profiles::upgrade`
 

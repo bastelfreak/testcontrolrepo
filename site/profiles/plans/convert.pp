@@ -18,5 +18,12 @@ plan profiles::convert (
 
   # peadm::upgrade doesn't do a final puppet run without changed resources
   # To have a clean report, we trigger a puppet run here
-  run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root')
+  # we  run it twice, in case we've a raise condition with an already running puppet agent
+  $result = run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true)
+  # ok is true if the task was successful on all targets
+  unless $result.ok {
+    out::message("Final peadm::puppet_runonce failed with: ${result}")
+    out::message('Trying another puppet run')
+    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root')
+  }
 }

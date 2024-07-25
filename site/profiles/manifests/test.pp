@@ -22,11 +22,11 @@ class profiles::test (
   -> file { '/opt/peadmmig/profiles::upgradeto2021.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
-    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2021' }.stdlib::to_json_pretty,
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2021.7.8' }.stdlib::to_json_pretty,
   }
   -> file { '/opt/peadmmig/profiles::upgradeto2023.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
-    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2023' }.stdlib::to_json_pretty,
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => '2023.7.0' }.stdlib::to_json_pretty,
   }
 }

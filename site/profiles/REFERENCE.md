@@ -42,14 +42,32 @@ demo profile to configure bolt for peadm convert
 The following parameters are available in the `profiles::test` class:
 
 * [`version`](#-profiles--test--version)
+* [`version_2021`](#-profiles--test--version_2021)
+* [`version_2023`](#-profiles--test--version_2023)
 
 ##### <a name="-profiles--test--version"></a>`version`
 
 Data type: `Peadm::Pe_version`
 
-
+our default version to upgrade to
 
 Default value: `'2021.7.8'`
+
+##### <a name="-profiles--test--version_2021"></a>`version_2021`
+
+Data type: `Peadm::Pe_version`
+
+latest PE 2021 version
+
+Default value: `$version`
+
+##### <a name="-profiles--test--version_2023"></a>`version_2023`
+
+Data type: `Peadm::Pe_version`
+
+latest PE 2023 version
+
+Default value: `'2023.7.0'`
 
 ## Functions
 

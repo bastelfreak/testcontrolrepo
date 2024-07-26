@@ -217,6 +217,7 @@ The following parameters are available in the `profiles::upgradeto2023` plan:
 
 * [`primary_host`](#-profiles--upgradeto2023--primary_host)
 * [`version`](#-profiles--upgradeto2023--version)
+* [`pe_installer_source`](#-profiles--upgradeto2023--pe_installer_source)
 
 ##### <a name="-profiles--upgradeto2023--primary_host"></a>`primary_host`
 
@@ -231,4 +232,10 @@ Data type: `Peadm::Pe_version`
 
 
 Default value: `'2023.7.0'`
+
+##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Stdlib::HTTPSUrl`
+
+
 

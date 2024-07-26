@@ -38,6 +38,6 @@ class profiles::test (
   -> file { '/opt/peadmmig/profiles::upgradeto2023url.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
-    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023, 'pe_installer_source' => "https://s3.amazonaws.com/pe-builds/released/${version}/" }.stdlib::to_json_pretty,
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023, 'pe_installer_source' => "https://s3.amazonaws.com/pe-builds/released/${version_2023}/" }.stdlib::to_json_pretty,
   }
 }

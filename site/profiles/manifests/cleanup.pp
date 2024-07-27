@@ -104,6 +104,16 @@ class profiles::cleanup {
         *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes', 'deleted'],
       }
     }
+
+    # also cleanup the pe.conf
+    $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
+    $pe = profiles::readhocon($pepath)
+    if $pe['puppet_enterprise::profile::master::r10k_remote'] {
+      file { $pepath:
+        ensure  => 'file',
+        content => stdlib::to_json_pretty($pe - 'puppet_enterprise::profile::master::r10k_remote'),
+      }
+    }
   } else {
     echo { '\'puppet_enterprise::master::code_manager::sources\' in hiera but not yet written to the config. Not updating PE classifier node groups':
       withpath => false,

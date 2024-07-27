@@ -14,3 +14,10 @@ puppet_enterprise::profile::master::r10k_trace: true
 puppet_enterprise::master::code_manager::invalid_branches: 'correct'
 puppet_enterprise::master::code_manager::deploy_pool_size: 8
 puppet_enterprise::master::code_manager::download_pool_size: 8
+
+puppet_enterprise::profile::console::display_local_time: true
+puppet_enterprise::send_analytics_data: false
+puppet_enterprise::profile::master::check_for_updates: false
+puppet_enterprise::master::code_manager::post_environment_hooks:
+  - url: "https://%{trusted.certname}:4433/classifier-api/v1/update-classes"
+    use-client-ssl: true

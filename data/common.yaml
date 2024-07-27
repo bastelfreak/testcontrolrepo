@@ -9,6 +9,8 @@ puppet_enterprise::master::code_manager::sources:
     remote: 'https://github.com/voxpupuli/controlrepo'
     prefix: true
 
+puppet_enterprise::profile::master::r10k_trace: true
+puppet_enterprise::master::code_manager::invalid_branches: 'correct'
 puppet_enterprise::profile::console::display_local_time: true
 puppet_enterprise::send_analytics_data: false
 puppet_enterprise::profile::master::check_for_updates: false

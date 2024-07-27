@@ -10,6 +10,16 @@
 plan profiles::subplans::precheck (
   Peadm::SingleTargetSpec $primary_host,
 ) {
+  # To have a clean report, we trigger a puppet run here
+  # we  run it twice, in case we've a raise condition with an already running puppet agent
+  $result = run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true)
+  # ok is true if the task was successful on all targets
+  unless $result.ok {
+    out::message("Final peadm::puppet_runonce failed with: ${result}")
+    out::message('Trying another puppet run')
+    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root')
+  }
+
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
   # ToDo: Repeat for pe_status_check::infra_role_summary
   # {

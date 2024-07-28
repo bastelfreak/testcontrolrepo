@@ -109,9 +109,24 @@ class profiles::cleanup {
     $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
     $pe = profiles::readhocon($pepath)
     if $pe['puppet_enterprise::profile::master::r10k_remote'] {
+      echo {'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
+        withpath => false,
+      }
       file { $pepath:
         ensure  => 'file',
         content => stdlib::to_json_pretty($pe - 'puppet_enterprise::profile::master::r10k_remote'),
+      }
+    }
+    # also cleanup the pe.conf
+    $userdatapath = '/etc/puppetlabs/enterprise/conf.d/user_data.conf'
+    $userdata = profiles::readhocon($userdatapath)
+    if $userdata['puppet_enterprise::profile::master::r10k_remote'] {
+      echo {'user_data.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
+        withpath => false,
+      }
+      file { $userdatapath:
+        ensure  => 'file',
+        content => stdlib::to_json_pretty($userdata - 'puppet_enterprise::profile::master::r10k_remote'),
       }
     }
   } else {

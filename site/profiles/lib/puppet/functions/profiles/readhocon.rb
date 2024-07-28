@@ -9,6 +9,11 @@ Puppet::Functions.create_function(:'profiles::readhocon') do
 
   def readhocon(path)
     require 'hocon'
-    Hocon.load(path)
+    begin
+      Hocon.load(path)
+    rescue Hocon::ConfigError::ConfigParseError => e
+      Puppet.debug("Parsing hocon failed with error: #{e.message}")
+      raise e
+    end
   end
 end

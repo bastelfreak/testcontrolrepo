@@ -7,7 +7,7 @@
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
-class profiles::test (
+class profiles::boltprojects (
   Peadm::Pe_version $version = '2021.7.8',
   Peadm::Pe_version $version_2021 = $version,
   Peadm::Pe_version $version_2023 = '2023.7.0',

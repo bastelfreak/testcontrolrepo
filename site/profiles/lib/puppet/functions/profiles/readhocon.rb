@@ -1,5 +1,9 @@
 # @summary return Hocon data
+#
+# @author Tim Meusel <tim@bastelfreak.de>
+#
 Puppet::Functions.create_function(:'profiles::readhocon') do
+  # @param path absolute path to a hocon config file, needs to end with .conf
   # @example Calling the function
   #   boltdir()
   dispatch :readhocon do

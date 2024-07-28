@@ -1,7 +1,13 @@
 #
 # @summary removes r10k_remote from the master node group
 #
-class profiles::cleanup {
+# @param show_diff shows the diff for file resources. Set to true for debugging
+#
+# @author Tim Meusel <tim@bastelfreak.de>
+#
+class profiles::cleanup (
+  Boolean $show_diff = false,
+) {
   $sources = lookup('puppet_enterprise::master::code_manager::sources', Hash[String[1],Hash[String[1],Variant[String[1],Boolean]]], 'deep', {})
   if $sources.empty {
     fail('\'puppet_enterprise::master::code_manager::sources\' needs to be set in Hiera')
@@ -113,8 +119,9 @@ class profiles::cleanup {
         withpath => false,
       }
       file { $pepath:
-        ensure  => 'file',
-        content => stdlib::to_json_pretty($pe - 'puppet_enterprise::profile::master::r10k_remote'),
+        ensure    => 'file',
+        content   => stdlib::to_json_pretty($pe - 'puppet_enterprise::profile::master::r10k_remote'),
+        show_diff => $show_diff,
       }
     }
     # also cleanup the pe.conf
@@ -125,8 +132,9 @@ class profiles::cleanup {
         withpath => false,
       }
       file { $userdatapath:
-        ensure  => 'file',
-        content => stdlib::to_json_pretty($userdata - 'puppet_enterprise::profile::master::r10k_remote'),
+        ensure    => 'file',
+        content   => stdlib::to_json_pretty($userdata - 'puppet_enterprise::profile::master::r10k_remote'),
+        show_diff => $show_diff,
       }
     }
   } else {

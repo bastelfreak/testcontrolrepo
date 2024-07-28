@@ -6,13 +6,14 @@
 
 ### Classes
 
+* [`profiles::boltprojects`](#profiles--boltprojects): demo profile to configure bolt for peadm convert
 * [`profiles::cleanup`](#profiles--cleanup): removes r10k_remote from the master node group
-* [`profiles::test`](#profiles--test): demo profile to configure bolt for peadm convert
 
 ### Functions
 
 * [`profiles::boltdir`](#profiles--boltdir): Return absolute path to bolt project directory
 * [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
+* [`profiles::readhocon`](#profiles--readhocon): return Hocon data
 
 ### Plans
 
@@ -22,6 +23,7 @@
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+* [`profiles::upgradeto2023url`](#profiles--upgradeto2023url): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 
 #### Private Plans
 
@@ -29,23 +31,19 @@
 
 ## Classes
 
-### <a name="profiles--cleanup"></a>`profiles::cleanup`
-
-removes r10k_remote from the master node group
-
-### <a name="profiles--test"></a>`profiles::test`
+### <a name="profiles--boltprojects"></a>`profiles::boltprojects`
 
 demo profile to configure bolt for peadm convert
 
 #### Parameters
 
-The following parameters are available in the `profiles::test` class:
+The following parameters are available in the `profiles::boltprojects` class:
 
-* [`version`](#-profiles--test--version)
-* [`version_2021`](#-profiles--test--version_2021)
-* [`version_2023`](#-profiles--test--version_2023)
+* [`version`](#-profiles--boltprojects--version)
+* [`version_2021`](#-profiles--boltprojects--version_2021)
+* [`version_2023`](#-profiles--boltprojects--version_2023)
 
-##### <a name="-profiles--test--version"></a>`version`
+##### <a name="-profiles--boltprojects--version"></a>`version`
 
 Data type: `Peadm::Pe_version`
 
@@ -53,7 +51,7 @@ our default version to upgrade to
 
 Default value: `'2021.7.8'`
 
-##### <a name="-profiles--test--version_2021"></a>`version_2021`
+##### <a name="-profiles--boltprojects--version_2021"></a>`version_2021`
 
 Data type: `Peadm::Pe_version`
 
@@ -61,13 +59,31 @@ latest PE 2021 version
 
 Default value: `$version`
 
-##### <a name="-profiles--test--version_2023"></a>`version_2023`
+##### <a name="-profiles--boltprojects--version_2023"></a>`version_2023`
 
 Data type: `Peadm::Pe_version`
 
 latest PE 2023 version
 
 Default value: `'2023.7.0'`
+
+### <a name="profiles--cleanup"></a>`profiles::cleanup`
+
+removes r10k_remote from the master node group
+
+#### Parameters
+
+The following parameters are available in the `profiles::cleanup` class:
+
+* [`show_diff`](#-profiles--cleanup--show_diff)
+
+##### <a name="-profiles--cleanup--show_diff"></a>`show_diff`
+
+Data type: `Boolean`
+
+shows the diff for file resources. Set to true for debugging
+
+Default value: `false`
 
 ## Functions
 
@@ -138,6 +154,40 @@ Data type: `Variant[Array,Hash]`
 Data type: `String[1]`
 
 
+
+### <a name="profiles--readhocon"></a>`profiles::readhocon`
+
+Type: Ruby 4.x API
+
+return Hocon data
+
+#### Examples
+
+##### Calling the function
+
+```puppet
+boltdir()
+```
+
+#### `profiles::readhocon(Stdlib::Absolutepath $path)`
+
+The profiles::readhocon function.
+
+Returns: `Hash`
+
+##### Examples
+
+###### Calling the function
+
+```puppet
+boltdir()
+```
+
+##### `path`
+
+Data type: `Stdlib::Absolutepath`
+
+absolute path to a hocon config file, needs to end with .conf
 
 ## Plans
 
@@ -217,7 +267,6 @@ The following parameters are available in the `profiles::upgradeto2023` plan:
 
 * [`primary_host`](#-profiles--upgradeto2023--primary_host)
 * [`version`](#-profiles--upgradeto2023--version)
-* [`pe_installer_source`](#-profiles--upgradeto2023--pe_installer_source)
 
 ##### <a name="-profiles--upgradeto2023--primary_host"></a>`primary_host`
 
@@ -233,9 +282,37 @@ Data type: `Peadm::Pe_version`
 
 Default value: `'2023.7.0'`
 
-##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
+### <a name="profiles--upgradeto2023url"></a>`profiles::upgradeto2023url`
+
+calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::upgradeto2023url` plan:
+
+* [`primary_host`](#-profiles--upgradeto2023url--primary_host)
+* [`version`](#-profiles--upgradeto2023url--version)
+* [`pe_installer_source`](#-profiles--upgradeto2023url--pe_installer_source)
+
+##### <a name="-profiles--upgradeto2023url--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
+
+##### <a name="-profiles--upgradeto2023url--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+
+
+Default value: `'2023.7.0'`
+
+##### <a name="-profiles--upgradeto2023url--pe_installer_source"></a>`pe_installer_source`
 
 Data type: `Stdlib::HTTPSUrl`
 
 
+
+Default value: `"https://s3.amazonaws.com/pe-builds/released/${version}/"`
 

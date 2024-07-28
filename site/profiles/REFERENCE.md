@@ -166,7 +166,7 @@ return Hocon data
 ##### Calling the function
 
 ```puppet
-boltdir()
+profiles::readhocon('/etc/puppetlabs/enterprise/conf.d/pe.conf')
 ```
 
 #### `profiles::readhocon(Stdlib::Absolutepath $path)`
@@ -180,7 +180,7 @@ Returns: `Hash`
 ###### Calling the function
 
 ```puppet
-boltdir()
+profiles::readhocon('/etc/puppetlabs/enterprise/conf.d/pe.conf')
 ```
 
 ##### `path`

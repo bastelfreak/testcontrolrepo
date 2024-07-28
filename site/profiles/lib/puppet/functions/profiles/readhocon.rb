@@ -5,7 +5,7 @@
 Puppet::Functions.create_function(:'profiles::readhocon') do
   # @param path absolute path to a hocon config file, needs to end with .conf
   # @example Calling the function
-  #   boltdir()
+  #   profiles::readhocon('/etc/puppetlabs/enterprise/conf.d/pe.conf')
   dispatch :readhocon do
     param 'Stdlib::Absolutepath', :path
     return_type 'Hash'

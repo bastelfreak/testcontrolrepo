@@ -23,6 +23,9 @@ mod 'puppetlabs-ruby_task_helper', '0.6.1'  # peadm dependency
 mod 'puppetlabs-puppet_agent', '4.20.1' # configures puppet agent
 mod 'puppetlabs-facts', '1.4.0'         # puppet_agent dependency
 
+mod 'puppet/bolt',            # installs bolt
+  git: 'https://github.com/bastelfreak/puppet-bolt',
+  branch: 'foo2'
 mod 'puppet/systemd', '7.1.0' # required to write the bolt unit
 mod 'saz-sudo', '8.0.0'       # required because we call peadm::* as normal user
 

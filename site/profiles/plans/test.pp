@@ -6,5 +6,9 @@ plan profiles::test {
 
   $foo = run_task('puppet_conf', $primary_host, 'description', $main)
 
-  out::message($foo.results[0])
+  out::message($foo.results[0].value['status'])
+
+  $foo2 = run_task('puppet_conf', $primary_host, 'description', $agent)
+
+  out::message($foo2.results[0].value['status'])
 }

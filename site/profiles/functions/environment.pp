@@ -28,5 +28,6 @@ function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
   } else {
     true
   }
-  { 'config_is_correct' => $config_is_correct, 'correct_env' => $puppetdb_env, }
+  $return = { 'config_is_correct' => $config_is_correct, 'correct_env' => $puppetdb_env, }
+  $return
 }

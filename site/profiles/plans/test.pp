@@ -6,5 +6,5 @@ plan profiles::test {
 
   $foo = run_task('puppet_conf', $primary_host, 'description', $main)
 
-  out::message($foo)
+  out::message($foo.results[0])
 }

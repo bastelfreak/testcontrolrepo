@@ -1,4 +1,4 @@
-mod 'puppetlabs/node_manager', '1.0.1' # to cleanup existing node groups, was migrated to Perforce but not released yet
+mod 'puppetlabs/node_manager', '0.8.0' # to cleanup existing node groups, was migrated to Perforce but not released yet
 
 mod 'ipcrm/echo', '0.1.8' # for debug output during testing
 

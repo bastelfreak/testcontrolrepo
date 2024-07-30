@@ -1,7 +1,4 @@
-plan profiles::test {
-  $primary_host = 'pe.tim.betadots.training'
-
-  profiles::environment($primary_host)
+function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
   $main  = {'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root'}
   $agent = {'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root'}
 
@@ -24,7 +21,12 @@ plan profiles::test {
     $main_env
   }
 
-  if $conf_env != $puppetdb_env {
-    fail("The ENC provided environment '${puppetdb_env}' is not set in puppet.conf (${conf_env})")
+  $config_is_correct = if $conf_env != $puppetdb_env {
+    # fail("The ENC provided environment '${puppetdb_env}' is not set in puppet.conf (${conf_env})")
+    out::message("The ENC provided environment '${puppetdb_env}' is not set in puppet.conf (${conf_env})")
+    false
+  } else {
+    true
   }
+  { 'config_is_correct' => $config_is_correct, 'correct_env' => $puppetdb_env, }
 }

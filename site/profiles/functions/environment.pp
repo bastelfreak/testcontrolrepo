@@ -1,4 +1,5 @@
-function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
+#function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
+function profiles::environment (Stdlib::Fqdn $primary_host) >> Hash {
   $main  = {'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root'}
   $agent = {'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root'}
 

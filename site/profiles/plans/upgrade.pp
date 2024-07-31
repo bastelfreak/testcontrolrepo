@@ -27,4 +27,9 @@ plan profiles::upgrade (
     out::message('Trying another puppet run')
     run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root')
   }
+  # cleanup diskspace by removing old packages
+  # this will remove everything except `current` from
+  # * /opt/puppetlabs/server/data/packages/public
+  # * /opt/puppetlabs/server/data/staging
+  run_plan('enterprise_tasks::remove_old_pe_package', {'primary' => $primary_host, 'force' => true, '_run_as' => 'root',})
 }

@@ -1,5 +1,5 @@
 #
-# @summary removes r10k_remote from the master node group
+# @summary prepares a PE environment for a peadm::convert && peadm::upgrade
 #
 # @param show_diff shows the diff for file resources. Set to true for debugging
 #
@@ -177,4 +177,7 @@ class profiles::cleanup (
       withpath => false,
     }
   }
+
+  # ensure agents are configured to update themself
+  $version = lookup('puppet_agent::version2')
 }

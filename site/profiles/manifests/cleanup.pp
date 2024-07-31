@@ -135,11 +135,11 @@ class profiles::cleanup (
         echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
           withpath => false,
         }
-        $data = {
+        $env_data = {
           'pe_install::install::classification::pe_node_group_environment'   => $validated_env['correct_env'],
           'puppet_enterprise::master::recover_configuration::pe_environment' => $validated_env['correct_env'],
         }
-        $pe_wo_remote + $data
+        $pe_wo_remote + $env_data
       }
       file { $pepath:
         ensure    => 'file',

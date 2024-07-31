@@ -20,5 +20,6 @@ puppet_enterprise::master::code_manager::post_environment_hooks:
 puppet_enterprise::profile::agent::package_inventory_enabled: true
 
 # ensure all agents update themself to the version on the primary
+# This needs to be set in Hiera and not in Puppet Code, otherwise we cannot validate it
 # ToDo: We need to ensure that puppet_agent module is used
 puppet_agent::version: 'auto'

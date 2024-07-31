@@ -179,5 +179,8 @@ class profiles::cleanup (
   }
 
   # ensure agents are configured to update themself
-  $version = lookup('puppet_agent::version2')
+  $version = lookup('puppet_agent::version2', String[1], 'notauto')
+  unless $version == 'auto' {
+    fail('puppet_agent::version needs to be set to `auto` in Hiera!')
+  }
 }

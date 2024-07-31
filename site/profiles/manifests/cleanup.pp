@@ -114,16 +114,39 @@ class profiles::cleanup (
     # also cleanup the pe.conf
     $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
     $pe = profiles::readhocon($pepath)
-    if $pe['puppet_enterprise::profile::master::r10k_remote'] {
-      echo {'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
-        withpath => false,
+
+    # { 'config_is_correct' => true, 'correct_env' => true, }
+    $validated_env = profiles::environment($primary_host)
+    if $validated_env['config_is_correct'] == false or $pe['puppet_enterprise::profile::master::r10k_remote'] {
+      $pe_wo_remote = if $pe['puppet_enterprise::profile::master::r10k_remote'] {
+        echo {'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
+          withpath => false,
+        }
+        $pe - 'puppet_enterprise::profile::master::r10k_remote'
+      } else{
+        $pe
+      }
+      # ensure we set the correct environment in pe.conf
+      # https://www.puppet.com/docs/pe/latest/upgrade_pe#update_environment
+      $pe_final = if $validated_env['config_is_correct'] {
+        $pe_wo_remote
+      } else {
+        echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
+          withpath => false,
+        }
+        $data = {
+          'pe_install::install::classification::pe_node_group_environment'   => $validated_env['correct_env'],
+          'puppet_enterprise::master::recover_configuration::pe_environment' => $validated_env['correct_env'],
+        }
+        $pe_wo_remote + $data
       }
       file { $pepath:
         ensure    => 'file',
-        content   => stdlib::to_json_pretty($pe - 'puppet_enterprise::profile::master::r10k_remote'),
+        content   => stdlib::to_json_pretty($pe_final),
         show_diff => $show_diff,
       }
     }
+
     # also cleanup the pe.conf
     $userdatapath = '/etc/puppetlabs/enterprise/conf.d/user_data.conf'
     $userdata = profiles::readhocon($userdatapath)

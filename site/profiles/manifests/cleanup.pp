@@ -132,9 +132,9 @@ class profiles::cleanup (
       $pe_final = if $validated_env['config_is_correct'] {
         $pe_wo_remote
       } else {
-        #echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
-        #  withpath => false,
-        #}
+        echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
+          withpath => false,
+        }
         $env_data = {
           'pe_install::install::classification::pe_node_group_environment'   => $validated_env['correct_env'],
           'puppet_enterprise::master::recover_configuration::pe_environment' => $validated_env['correct_env'],
@@ -145,6 +145,17 @@ class profiles::cleanup (
         ensure    => 'file',
         content   => stdlib::to_json_pretty($pe_final),
         show_diff => $show_diff,
+      }
+      echo { "puppet.conf doesn't contain correct env, adding '${validated_env['correct_env']}' to agent section":
+        withpath => false,
+      }
+      # it is save to assume that the environment element isn't managed already, or it's managed wrong
+      ini_setting { 'puppet.conf environment':
+        ensure  => 'present',
+        path    => '/etc/puppetlabs/puppet/puppet.conf',
+        section => 'agent',
+        setting => 'environment',
+        value   => $validated_env['correct_env'],
       }
     }
 

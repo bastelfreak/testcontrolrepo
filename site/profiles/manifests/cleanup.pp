@@ -116,7 +116,8 @@ class profiles::cleanup (
     $pe = profiles::readhocon($pepath)
 
     # { 'config_is_correct' => true, 'correct_env' => true, }
-    $validated_env = profiles::environment($trusted['certname'])
+    #$validated_env = profiles::environment($trusted['certname'])
+    $validated_env = { 'config_is_correct' => false, 'correct_env' => true, }
     if $validated_env['config_is_correct'] == false or $pe['puppet_enterprise::profile::master::r10k_remote'] {
       $pe_wo_remote = if $pe['puppet_enterprise::profile::master::r10k_remote'] {
         echo {'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':

@@ -132,9 +132,9 @@ class profiles::cleanup (
       $pe_final = if $validated_env['config_is_correct'] {
         $pe_wo_remote
       } else {
-        echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
-          withpath => false,
-        }
+        #echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
+        #  withpath => false,
+        #}
         $env_data = {
           'pe_install::install::classification::pe_node_group_environment'   => $validated_env['correct_env'],
           'puppet_enterprise::master::recover_configuration::pe_environment' => $validated_env['correct_env'],

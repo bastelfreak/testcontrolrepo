@@ -8,7 +8,7 @@ taskdata='
 { "scope": {
     "nodes": [ "'${primary}'" ] },
   "params": {
-    "action": "status",
+    "action": "start",
     "name": "peadmmig@profiles::convert.service" },
   "task": "service::linux",
   "environment": "production"

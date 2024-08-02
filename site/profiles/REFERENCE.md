@@ -15,6 +15,7 @@
 #### Private Classes
 
 * `profiles::cleanup::agent`: ensures that the puppet agents have the correct config to update themself
+* `profiles::cleanup::node_group`: removes data from the PE Master node group if required
 * `profiles::cleanup::puppetconf`
 * `profiles::cleanup::user_data`: removes bad data from user_data.conf
 

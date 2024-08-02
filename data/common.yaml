@@ -23,3 +23,5 @@ puppet_enterprise::profile::agent::package_inventory_enabled: true
 # This needs to be set in Hiera and not in Puppet Code, otherwise we cannot validate it
 # ToDo: We need to ensure that puppet_agent module is used
 puppet_agent::version: 'auto'
+
+profiles::cleanup::show_diff: true

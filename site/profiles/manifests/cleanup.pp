@@ -2,44 +2,59 @@
 # @summary prepares a PE environment for a peadm::convert && peadm::upgrade
 #
 # @param show_diff shows the diff for file resources. Set to true for debugging
+# @param url url to the control repository
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
 class profiles::cleanup (
   Boolean $show_diff = false,
+  String[1] $url = 'https://github.com/voxpupuli/controlrepo',
 ) {
-  $sources = lookup('puppet_enterprise::master::code_manager::sources', Hash[String[1],Hash[String[1],Variant[String[1],Boolean]]], 'deep', {})
-  if $sources.empty {
-    fail('\'puppet_enterprise::master::code_manager::sources\' needs to be set in Hiera')
-  } else {
-    # do some further validation. There should be one main repo with prefix=false and N repos with prefix=true
-    if $sources.length < 2 {
-      fail('\'puppet_enterprise::master::code_manager::sources\' needs at least two repos')
-    }
-    $with_prefix = $sources.filter |String[1] $name, Hash[String[1],Variant[String[1],Boolean]] $data| {
-      $data['prefix'] == true
-    }
-    if $with_prefix.length == 0 {
-      fail('\'puppet_enterprise::master::code_manager::sources\' needs 1 or more repos with prefix=>true')
-    }
-    if ($sources.length - $with_prefix.length) != 1 {
-      fail("'puppet_enterprise::master::code_manager::sources' can only have one repo with prefix=>false. But it's set to ${sources}")
-    }
-  }
+
+  # ensure the control repos are configured correctly in Hiera
+  profiles::validate_control_repo_sources_in_hiera($url)
 
   # the fact needs to be present. if it's missing something is wrong
   unless $facts['codemanager_config'] {
     fail('codemanager_config fact is missing')
   }
 
+  $validated_env = profiles::validate_env_puppet()
+
+  unless $validated_env['config_is_correct'] {
+    class { 'profiles::cleanup::puppetconf':
+      env => $validated_env['correct_env'],
+    }
+  }
+
   # cleanup the node classifier data only when the hiera settings are already written
   # this ensures that we don't brick our deployment (assume the initial run removes the data from the node classifier and wants to update code-manager config via hiera but that fails.
   if fact('codemanager_config.sources') {
+
+    # check if the data in the code manager config is correct
+    profiles::validate_code_manager_sources()
+
     $group = 'PE Master'
     $node_group = dig(node_groups($group))[$group]
     $classes = dig($node_group, 'classes')
     $data = dig($node_group, 'config_data')
+
+    # check if user_data.conf contains bad data and clean it up
+    class { 'profiles::cleanup::user_data':
+      show_diff => $show_diff,
+    }
+    contain profiles::cleanup::user_data
+
+    # check if pe.conf contains bad/missing data and clean it up
+    class { 'profiles::cleanup::pe_conf':
+      validated_env => $validated_env,
+      show_diff     => $show_diff,
+    }
+    contain profiles::cleanup::pe_conf
+
     if $classes {
+      # check if the PE Master node group has data that needs to be removed
+      contain profiles::cleanup::node_group
       if dig($classes, 'puppet_enterprise::profile::master', 'r10k_remote') {
         echo { "r10k_remote set in node group ${group} in classes section, removing it":
           withpath => false,
@@ -110,83 +125,12 @@ class profiles::cleanup (
         *              => $node_group - ['environment_trumps', 'last_edited', 'serial_number', 'config_data', 'id', 'classes', 'deleted'],
       }
     }
-
-    # also cleanup the pe.conf
-    $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
-    $pe = profiles::readhocon($pepath)
-
-    if fact('extlib__puppet_config.agent.environment') {
-      $config_env = $facts['extlib__puppet_config']['agent']['environment']
-    } else {
-      fail('puppet/extlib 7.2.0 or newer is required for the extlib__puppet_config.agent.environment fact')
-    }
-    $puppetdb_results = puppetdb_query("nodes[catalog_environment]{ certname = \"${trusted['certname']}\"}")
-    $puppetdb_env = $puppetdb_results[0]['catalog_environment']
-    $config_is_correct = $config_env == $puppetdb_env
-
-    if $config_is_correct == false or $pe['puppet_enterprise::profile::master::r10k_remote'] {
-      $pe_wo_remote = if $pe['puppet_enterprise::profile::master::r10k_remote'] {
-        echo { 'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
-          withpath => false,
-        }
-        $pe - 'puppet_enterprise::profile::master::r10k_remote'
-      } else {
-        $pe
-      }
-      # ensure we set the correct environment in pe.conf
-      # https://www.puppet.com/docs/pe/latest/upgrade_pe#update_environment
-      $pe_final = if $config_is_correct {
-        $pe_wo_remote
-      } else {
-        echo { "pe.conf does not set the non-standard env '${puppetdb_env}', adding it":
-          withpath => false,
-        }
-        $env_data = {
-          'pe_install::install::classification::pe_node_group_environment'   => $puppetdb_env,
-          'puppet_enterprise::master::recover_configuration::pe_environment' => $puppetdb_env,
-        }
-        $pe_wo_remote + $env_data
-      }
-      file { $pepath:
-        ensure    => 'file',
-        content   => stdlib::to_json_pretty($pe_final.sort),
-        show_diff => $show_diff,
-      }
-      echo { "puppet.conf doesn't contain correct env, adding '${puppetdb_env}' to agent section":
-        withpath => false,
-      }
-      # it is save to assume that the environment element isn't managed already, or it's managed wrong
-      ini_setting { 'puppet.conf environment':
-        ensure  => 'present',
-        path    => '/etc/puppetlabs/puppet/puppet.conf',
-        section => 'agent',
-        setting => 'environment',
-        value   => $puppetdb_env,
-      }
-    }
-
-    # also cleanup the pe.conf
-    $userdatapath = '/etc/puppetlabs/enterprise/conf.d/user_data.conf'
-    $userdata = profiles::readhocon($userdatapath)
-    if $userdata['puppet_enterprise::profile::master::r10k_remote'] {
-      echo { 'user_data.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
-        withpath => false,
-      }
-      file { $userdatapath:
-        ensure    => 'file',
-        content   => stdlib::to_json_pretty($userdata.sort - 'puppet_enterprise::profile::master::r10k_remote'),
-        show_diff => $show_diff,
-      }
-    }
   } else {
     echo { '\'puppet_enterprise::master::code_manager::sources\' in hiera but not yet written to the config. Not updating PE classifier node groups':
       withpath => false,
     }
   }
 
-  # ensure agents are configured to update themself
-  $version = lookup('puppet_agent::version', String[1], 'first', 'notauto')
-  unless $version == 'auto' {
-    fail('puppet_agent::version needs to be set to `auto` in Hiera!')
-  }
+  # validate hiera data for puppet agents
+  contain profiles::cleanup::agent
 }

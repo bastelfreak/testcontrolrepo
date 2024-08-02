@@ -6,8 +6,17 @@
 
 ### Classes
 
+#### Public Classes
+
 * [`profiles::boltprojects`](#profiles--boltprojects): demo profile to configure bolt for peadm convert
 * [`profiles::cleanup`](#profiles--cleanup): prepares a PE environment for a peadm::convert && peadm::upgrade
+* [`profiles::cleanup::pe_conf`](#profiles--cleanup--pe_conf): removess bad data from pe.conf and ensures that the environment is correct
+
+#### Private Classes
+
+* `profiles::cleanup::agent`: ensures that the puppet agents have the correct config to update themself
+* `profiles::cleanup::puppetconf`
+* `profiles::cleanup::user_data`: removes bad data from user_data.conf
 
 ### Functions
 
@@ -15,6 +24,9 @@
 * [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
 * [`profiles::environment`](#profiles--environment)
 * [`profiles::readhocon`](#profiles--readhocon): return Hocon data
+* [`profiles::validate_code_manager_sources`](#profiles--validate_code_manager_sources): ensures that we've the correct hiera data of control-repositories
+* [`profiles::validate_control_repo_sources_in_hiera`](#profiles--validate_control_repo_sources_in_hiera): ensures that we've the correct hiera data of control-repositories
+* [`profiles::validate_env_puppet`](#profiles--validate_env_puppet): collect information about a configured vs used environment
 
 ### Plans
 
@@ -78,12 +90,46 @@ prepares a PE environment for a peadm::convert && peadm::upgrade
 The following parameters are available in the `profiles::cleanup` class:
 
 * [`show_diff`](#-profiles--cleanup--show_diff)
+* [`url`](#-profiles--cleanup--url)
 
 ##### <a name="-profiles--cleanup--show_diff"></a>`show_diff`
 
 Data type: `Boolean`
 
 shows the diff for file resources. Set to true for debugging
+
+Default value: `false`
+
+##### <a name="-profiles--cleanup--url"></a>`url`
+
+Data type: `String[1]`
+
+url to the control repository
+
+Default value: `'https://github.com/voxpupuli/controlrepo'`
+
+### <a name="profiles--cleanup--pe_conf"></a>`profiles::cleanup::pe_conf`
+
+removess bad data from pe.conf and ensures that the environment is correct
+
+#### Parameters
+
+The following parameters are available in the `profiles::cleanup::pe_conf` class:
+
+* [`validated_env`](#-profiles--cleanup--pe_conf--validated_env)
+* [`show_diff`](#-profiles--cleanup--pe_conf--show_diff)
+
+##### <a name="-profiles--cleanup--pe_conf--validated_env"></a>`validated_env`
+
+Data type: `Hash`
+
+hash with the correct environment
+
+##### <a name="-profiles--cleanup--pe_conf--show_diff"></a>`show_diff`
+
+Data type: `Boolean`
+
+hide the file diff
 
 Default value: `false`
 
@@ -208,6 +254,66 @@ profiles::readhocon('/etc/puppetlabs/enterprise/conf.d/pe.conf')
 Data type: `Stdlib::Absolutepath`
 
 absolute path to a hocon config file, needs to end with .conf
+
+### <a name="profiles--validate_code_manager_sources"></a>`profiles::validate_code_manager_sources`
+
+Type: Puppet Language
+
+ensures that we've the correct hiera data of control-repositories
+
+#### `profiles::validate_code_manager_sources(String[1] $repo, Hash $sources)`
+
+The profiles::validate_code_manager_sources function.
+
+Returns: `Any`
+
+##### `repo`
+
+Data type: `String[1]`
+
+the control-repository with all bolt plans
+
+##### `sources`
+
+Data type: `Hash`
+
+the sources hash from the codemanager_config fact
+
+### <a name="profiles--validate_control_repo_sources_in_hiera"></a>`profiles::validate_control_repo_sources_in_hiera`
+
+Type: Puppet Language
+
+ensures that we've the correct hiera data of control-repositories
+
+#### `profiles::validate_control_repo_sources_in_hiera(String[1] $repo)`
+
+The profiles::validate_control_repo_sources_in_hiera function.
+
+Returns: `Any`
+
+##### `repo`
+
+Data type: `String[1]`
+
+the control-repository with all bolt plans
+
+### <a name="profiles--validate_env_puppet"></a>`profiles::validate_env_puppet`
+
+Type: Puppet Language
+
+collect information about a configured vs used environment
+
+#### `profiles::validate_env_puppet(Stdlib::Fqdn $node = trusted['certname'])`
+
+The profiles::validate_env_puppet function.
+
+Returns: `Hash`
+
+##### `node`
+
+Data type: `Stdlib::Fqdn`
+
+the node we check, usually the one that executes this function
 
 ## Plans
 

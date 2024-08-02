@@ -95,7 +95,7 @@ prepares a PE environment for a peadm::convert && peadm::upgrade
 The following parameters are available in the `profiles::cleanup` class:
 
 * [`show_diff`](#-profiles--cleanup--show_diff)
-* [`url`](#-profiles--cleanup--url)
+* [`repo`](#-profiles--cleanup--repo)
 
 ##### <a name="-profiles--cleanup--show_diff"></a>`show_diff`
 
@@ -105,7 +105,7 @@ shows the diff for file resources. Set to true for debugging
 
 Default value: `false`
 
-##### <a name="-profiles--cleanup--url"></a>`url`
+##### <a name="-profiles--cleanup--repo"></a>`repo`
 
 Data type: `String[1]`
 

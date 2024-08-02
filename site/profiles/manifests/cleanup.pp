@@ -2,17 +2,17 @@
 # @summary prepares a PE environment for a peadm::convert && peadm::upgrade
 #
 # @param show_diff shows the diff for file resources. Set to true for debugging
-# @param url url to the control repository
+# @param repo url to the control repository
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
 class profiles::cleanup (
   Boolean $show_diff = false,
-  String[1] $url = 'https://github.com/voxpupuli/controlrepo',
+  String[1] $repo = 'https://github.com/voxpupuli/controlrepo',
 ) {
 
   # ensure the control repos are configured correctly in Hiera
-  profiles::validate_control_repo_sources_in_hiera($url)
+  profiles::validate_control_repo_sources_in_hiera($repo)
 
   # the fact needs to be present. if it's missing something is wrong
   unless $facts['codemanager_config'] {

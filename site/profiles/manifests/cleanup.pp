@@ -149,7 +149,7 @@ class profiles::cleanup (
       }
       file { $pepath:
         ensure    => 'file',
-        content   => stdlib::to_json_pretty($pe_final),
+        content   => stdlib::to_json_pretty($pe_final.sort),
         show_diff => $show_diff,
       }
       echo { "puppet.conf doesn't contain correct env, adding '${puppetdb_env}' to agent section":
@@ -174,7 +174,7 @@ class profiles::cleanup (
       }
       file { $userdatapath:
         ensure    => 'file',
-        content   => stdlib::to_json_pretty($userdata - 'puppet_enterprise::profile::master::r10k_remote'),
+        content   => stdlib::to_json_pretty($userdata.sort - 'puppet_enterprise::profile::master::r10k_remote'),
         show_diff => $show_diff,
       }
     }

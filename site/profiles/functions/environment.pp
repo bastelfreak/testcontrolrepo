@@ -1,7 +1,7 @@
 #function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
 function profiles::environment (Stdlib::Fqdn $primary_host) >> Hash {
-  $main  = {'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root'}
-  $agent = {'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root'}
+  $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root' }
+  $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root' }
 
   $main_results = run_task('puppet_conf', $primary_host, 'description', $main)
   $main_env = $main_results.results[0].value['status']

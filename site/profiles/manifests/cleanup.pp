@@ -115,29 +115,36 @@ class profiles::cleanup (
     $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
     $pe = profiles::readhocon($pepath)
 
-    # { 'config_is_correct' => true, 'correct_env' => true, }
-    #$validated_env = profiles::environment($trusted['certname'])
     $validated_env = { 'config_is_correct' => false, 'correct_env' => 'peadm', }
-    if $validated_env['config_is_correct'] == false or $pe['puppet_enterprise::profile::master::r10k_remote'] {
+    if facts('extlib__puppet_config.agent.environment') {
+      $config_env = $facts['extlib__puppet_config']['agent']['environment']
+    } else {
+      fail('puppet/extlib 7.2.0 or newer is required for the extlib__puppet_config.agent.environment fact')
+    }
+    $puppetdb_results = puppetdb_query("nodes[catalog_environment]{ certname = \"${trusted['certname']}\"}")
+    $puppetdb_env = $puppetdb_results[0]['catalog_environment']
+    $config_is_correct = $config_env == $puppetdb_env
+
+    if $config_is_correct == false or $pe['puppet_enterprise::profile::master::r10k_remote'] {
       $pe_wo_remote = if $pe['puppet_enterprise::profile::master::r10k_remote'] {
-        echo {'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
+        echo { 'pe.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
           withpath => false,
         }
         $pe - 'puppet_enterprise::profile::master::r10k_remote'
-      } else{
+      } else {
         $pe
       }
       # ensure we set the correct environment in pe.conf
       # https://www.puppet.com/docs/pe/latest/upgrade_pe#update_environment
-      $pe_final = if $validated_env['config_is_correct'] {
+      $pe_final = if $config_is_correct {
         $pe_wo_remote
       } else {
-        echo {"pe.conf does not set the non-standard env '${$validated_env['correct_env']}', adding it":
+        echo { "pe.conf does not set the non-standard env '${puppetdb_env}', adding it":
           withpath => false,
         }
         $env_data = {
-          'pe_install::install::classification::pe_node_group_environment'   => $validated_env['correct_env'],
-          'puppet_enterprise::master::recover_configuration::pe_environment' => $validated_env['correct_env'],
+          'pe_install::install::classification::pe_node_group_environment'   => $puppetdb_env,
+          'puppet_enterprise::master::recover_configuration::pe_environment' => $puppetdb_env,
         }
         $pe_wo_remote + $env_data
       }
@@ -146,7 +153,7 @@ class profiles::cleanup (
         content   => stdlib::to_json_pretty($pe_final),
         show_diff => $show_diff,
       }
-      echo { "puppet.conf doesn't contain correct env, adding '${validated_env['correct_env']}' to agent section":
+      echo { "puppet.conf doesn't contain correct env, adding '${puppetdb_env}' to agent section":
         withpath => false,
       }
       # it is save to assume that the environment element isn't managed already, or it's managed wrong
@@ -155,7 +162,7 @@ class profiles::cleanup (
         path    => '/etc/puppetlabs/puppet/puppet.conf',
         section => 'agent',
         setting => 'environment',
-        value   => $validated_env['correct_env'],
+        value   => $puppetdb_env,
       }
     }
 
@@ -163,7 +170,7 @@ class profiles::cleanup (
     $userdatapath = '/etc/puppetlabs/enterprise/conf.d/user_data.conf'
     $userdata = profiles::readhocon($userdatapath)
     if $userdata['puppet_enterprise::profile::master::r10k_remote'] {
-      echo {'user_data.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
+      echo { 'user_data.conf contains puppet_enterprise::profile::master::r10k_remote, removing it':
         withpath => false,
       }
       file { $userdatapath:

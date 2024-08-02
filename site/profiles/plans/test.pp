@@ -2,8 +2,8 @@ plan profiles::test {
   $primary_host = 'pe.tim.betadots.training'
 
   profiles::environment($primary_host)
-  $main  = {'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root'}
-  $agent = {'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root'}
+  $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root' }
+  $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root' }
 
   $main_results = run_task('puppet_conf', $primary_host, 'description', $main)
   $main_env = $main_results.results[0].value['status']

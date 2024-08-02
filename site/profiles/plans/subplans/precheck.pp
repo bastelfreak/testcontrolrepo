@@ -24,8 +24,8 @@ plan profiles::subplans::precheck (
   # check if that's set in the puppet.conf
   # check if that's set in the pe.conf or user_data.conf
   # Update https://www.puppet.com/docs/pe/2021.7/upgrade_pe#update_environment
-  $main  = {'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root'}
-  $agent = {'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root'}
+  $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root' }
+  $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root' }
 
   $main_results = run_task('puppet_conf', $primary_host, 'description', $main)
   $main_env = $main_results.results[0].value['status']

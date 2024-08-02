@@ -31,5 +31,5 @@ plan profiles::upgrade (
   # this will remove everything except `current` from
   # * /opt/puppetlabs/server/data/packages/public
   # * /opt/puppetlabs/server/data/staging
-  run_plan('enterprise_tasks::remove_old_pe_package', {'primary' => $primary_host, 'force' => true, '_run_as' => 'root',})
+  run_plan('enterprise_tasks::remove_old_pe_package', { 'primary' => $primary_host, 'force' => true, '_run_as' => 'root', })
 }

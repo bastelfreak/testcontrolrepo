@@ -115,8 +115,7 @@ class profiles::cleanup (
     $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
     $pe = profiles::readhocon($pepath)
 
-    $validated_env = { 'config_is_correct' => false, 'correct_env' => 'peadm', }
-    if facts('extlib__puppet_config.agent.environment') {
+    if fact('extlib__puppet_config.agent.environment') {
       $config_env = $facts['extlib__puppet_config']['agent']['environment']
     } else {
       fail('puppet/extlib 7.2.0 or newer is required for the extlib__puppet_config.agent.environment fact')

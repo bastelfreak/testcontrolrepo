@@ -3,9 +3,13 @@
 #
 # @param node the node we check, usually the one that executes this function
 #
+# @api private
+#
 # @author Tim Meusel <tim@bastelfreak.de>
 #
-function profiles::validate_env_puppet (Stdlib::Fqdn $node = trusted['certname']) >> Hash {
+function profiles::validate_env_puppet (
+  Stdlib::Fqdn $node = $trusted['certname'],
+) >> Hash {
 
   # ToDo: If $node != localhost, we need to get facts from PuppetDB
   if fact('extlib__puppet_config.agent.environment') {

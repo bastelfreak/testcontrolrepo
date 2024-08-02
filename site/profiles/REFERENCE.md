@@ -20,13 +20,18 @@
 
 ### Functions
 
+#### Public Functions
+
 * [`profiles::boltdir`](#profiles--boltdir): Return absolute path to bolt project directory
 * [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
 * [`profiles::environment`](#profiles--environment)
 * [`profiles::readhocon`](#profiles--readhocon): return Hocon data
 * [`profiles::validate_code_manager_sources`](#profiles--validate_code_manager_sources): ensures that we've the correct hiera data of control-repositories
 * [`profiles::validate_control_repo_sources_in_hiera`](#profiles--validate_control_repo_sources_in_hiera): ensures that we've the correct hiera data of control-repositories
-* [`profiles::validate_env_puppet`](#profiles--validate_env_puppet): collect information about a configured vs used environment
+
+#### Private Functions
+
+* `profiles::validate_env_puppet`: collect information about a configured vs used environment
 
 ### Plans
 
@@ -296,24 +301,6 @@ Returns: `Any`
 Data type: `String[1]`
 
 the control-repository with all bolt plans
-
-### <a name="profiles--validate_env_puppet"></a>`profiles::validate_env_puppet`
-
-Type: Puppet Language
-
-collect information about a configured vs used environment
-
-#### `profiles::validate_env_puppet(Stdlib::Fqdn $node = trusted['certname'])`
-
-The profiles::validate_env_puppet function.
-
-Returns: `Hash`
-
-##### `node`
-
-Data type: `Stdlib::Fqdn`
-
-the node we check, usually the one that executes this function
 
 ## Plans
 

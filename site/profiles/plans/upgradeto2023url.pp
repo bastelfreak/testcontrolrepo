@@ -8,7 +8,7 @@
 plan profiles::upgradeto2023url (
   Peadm::SingleTargetSpec $primary_host,
   Peadm::Pe_version $version = '2023.7.0',
-  Stdlib::HTTPSUrl $pe_installer_source = "https://s3.amazonaws.com/pe-builds/released/${version}/",
+  Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
 ) {
   run_plan('profiles::subplans::precheck', { 'primary_host' => $primary_host })
 

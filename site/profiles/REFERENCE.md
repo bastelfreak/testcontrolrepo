@@ -7,12 +7,13 @@
 ### Classes
 
 * [`profiles::boltprojects`](#profiles--boltprojects): demo profile to configure bolt for peadm convert
-* [`profiles::cleanup`](#profiles--cleanup): removes r10k_remote from the master node group
+* [`profiles::cleanup`](#profiles--cleanup): prepares a PE environment for a peadm::convert && peadm::upgrade
 
 ### Functions
 
 * [`profiles::boltdir`](#profiles--boltdir): Return absolute path to bolt project directory
 * [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
+* [`profiles::environment`](#profiles--environment)
 * [`profiles::readhocon`](#profiles--readhocon): return Hocon data
 
 ### Plans
@@ -20,6 +21,7 @@
 #### Public Plans
 
 * [`profiles::convert`](#profiles--convert): calls peadm::convert + sanity checks. supposed to be executed via systemd unit
+* [`profiles::test`](#profiles--test)
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
@@ -69,7 +71,7 @@ Default value: `'2023.7.0'`
 
 ### <a name="profiles--cleanup"></a>`profiles::cleanup`
 
-removes r10k_remote from the master node group
+prepares a PE environment for a peadm::convert && peadm::upgrade
 
 #### Parameters
 
@@ -155,6 +157,24 @@ Data type: `String[1]`
 
 
 
+### <a name="profiles--environment"></a>`profiles::environment`
+
+Type: Puppet Language
+
+The profiles::environment function.
+
+#### `profiles::environment(Peadm::SingleTargetSpec $primary_host)`
+
+The profiles::environment function.
+
+Returns: `Hash`
+
+##### `primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+
+
 ### <a name="profiles--readhocon"></a>`profiles::readhocon`
 
 Type: Ruby 4.x API
@@ -207,6 +227,10 @@ Data type: `Peadm::SingleTargetSpec`
 
 the FQDN/common name of the primary, passed to peadm::convert
 
+### <a name="profiles--test"></a>`profiles::test`
+
+The profiles::test class.
+
 ### <a name="profiles--upgrade"></a>`profiles::upgrade`
 
 calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
@@ -217,6 +241,7 @@ The following parameters are available in the `profiles::upgrade` plan:
 
 * [`primary_host`](#-profiles--upgrade--primary_host)
 * [`version`](#-profiles--upgrade--version)
+* [`pe_installer_source`](#-profiles--upgrade--pe_installer_source)
 
 ##### <a name="-profiles--upgrade--primary_host"></a>`primary_host`
 
@@ -228,9 +253,17 @@ the FQDN/common name of the primary, passed to peadm::convert
 
 Data type: `Peadm::Pe_version`
 
-
+always points to the latest LTS
 
 Default value: `'2021.7.8'`
+
+##### <a name="-profiles--upgrade--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
 
 ### <a name="profiles--upgradeto2021"></a>`profiles::upgradeto2021`
 
@@ -242,6 +275,7 @@ The following parameters are available in the `profiles::upgradeto2021` plan:
 
 * [`primary_host`](#-profiles--upgradeto2021--primary_host)
 * [`version`](#-profiles--upgradeto2021--version)
+* [`pe_installer_source`](#-profiles--upgradeto2021--pe_installer_source)
 
 ##### <a name="-profiles--upgradeto2021--primary_host"></a>`primary_host`
 
@@ -253,9 +287,17 @@ the FQDN/common name of the primary, passed to peadm::convert
 
 Data type: `Peadm::Pe_version`
 
-
+always points to the latest LTS
 
 Default value: `'2021.7.8'`
+
+##### <a name="-profiles--upgradeto2021--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
 
 ### <a name="profiles--upgradeto2023"></a>`profiles::upgradeto2023`
 
@@ -267,6 +309,7 @@ The following parameters are available in the `profiles::upgradeto2023` plan:
 
 * [`primary_host`](#-profiles--upgradeto2023--primary_host)
 * [`version`](#-profiles--upgradeto2023--version)
+* [`pe_installer_source`](#-profiles--upgradeto2023--pe_installer_source)
 
 ##### <a name="-profiles--upgradeto2023--primary_host"></a>`primary_host`
 
@@ -278,9 +321,17 @@ the FQDN/common name of the primary, passed to peadm::convert
 
 Data type: `Peadm::Pe_version`
 
-
+always points to the latest LTS
 
 Default value: `'2023.7.0'`
+
+##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
 
 ### <a name="profiles--upgradeto2023url"></a>`profiles::upgradeto2023url`
 
@@ -310,9 +361,9 @@ Default value: `'2023.7.0'`
 
 ##### <a name="-profiles--upgradeto2023url--pe_installer_source"></a>`pe_installer_source`
 
-Data type: `Stdlib::HTTPSUrl`
+Data type: `Optional[Stdlib::HTTPSUrl]`
 
 
 
-Default value: `"https://s3.amazonaws.com/pe-builds/released/${version}/"`
+Default value: `undef`
 

@@ -19,7 +19,7 @@ class profiles::cleanup::user_data (
     }
     file { $userdatapath:
       ensure    => 'file',
-      content   => stdlib::to_json_pretty($userdata.sort - 'puppet_enterprise::profile::master::r10k_remote'),
+      content   => stdlib::to_json_pretty($userdata - 'puppet_enterprise::profile::master::r10k_remote'),
       show_diff => $show_diff,
     }
   }

@@ -32,7 +32,7 @@ class profiles::cleanup (
   if fact('codemanager_config.sources') {
 
     # check if the data in the code manager config is correct
-    profiles::validate_code_manager_sources()
+    profiles::validate_code_manager_sources($repo, $facts['codemanager_config']['sources'])
 
     $group = 'PE Master'
     $node_group = dig(node_groups($group))[$group]

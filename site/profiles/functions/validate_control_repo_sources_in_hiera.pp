@@ -23,7 +23,7 @@ function profiles::validate_control_repo_sources_in_hiera (String[1] $repo) {
     if ($sources.length - $with_prefix.length) != 1 {
       fail("'puppet_enterprise::master::code_manager::sources' can only have one repo with prefix=>false. But it's set to ${sources}")
     }
-    unless $repo in $with_prefix.map |$key, $value| { $value['remote']} {
+    unless $repo in $with_prefix.map |$key, $value| { $value['remote'] } {
       fail("Remote '${repo}' isn't configured as puppet_enterprise::master::code_manager::sources in hiera")
     }
   }

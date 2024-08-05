@@ -10,7 +10,6 @@ class profiles::cleanup (
   Boolean $show_diff = false,
   String[1] $repo = 'https://github.com/voxpupuli/controlrepo',
 ) {
-
   # ensure the control repos are configured correctly in Hiera
   profiles::validate_control_repo_sources_in_hiera($repo)
 
@@ -30,7 +29,6 @@ class profiles::cleanup (
   # cleanup the node classifier data only when the hiera settings are already written
   # this ensures that we don't brick our deployment (assume the initial run removes the data from the node classifier and wants to update code-manager config via hiera but that fails.
   if fact('codemanager_config.sources') {
-
     # check if the data in the code manager config is correct
     profiles::validate_code_manager_sources($repo, $facts['codemanager_config']['sources'])
 

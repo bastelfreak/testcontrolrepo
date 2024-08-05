@@ -9,7 +9,7 @@
 class profiles::cleanup::pe_conf (
   Hash $validated_env,
   Boolean $show_diff = false,
-){
+) {
   $pepath = '/etc/puppetlabs/enterprise/conf.d/pe.conf'
   $pe = profiles::readhocon($pepath)
 

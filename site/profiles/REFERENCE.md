@@ -341,7 +341,7 @@ The following parameters are available in the `profiles::upgrade` plan:
 
 Data type: `Peadm::SingleTargetSpec`
 
-the FQDN/common name of the primary, passed to peadm::convert
+the FQDN/common name of the primary
 
 ##### <a name="-profiles--upgrade--version"></a>`version`
 

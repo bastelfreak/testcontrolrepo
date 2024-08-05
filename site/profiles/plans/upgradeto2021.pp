@@ -12,5 +12,5 @@ plan profiles::upgradeto2021 (
   Peadm::Pe_version $version = '2021.7.8',
   Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
 ) {
-  run_plan('profiles::convert', { 'primary_host' => $primary_host, 'version' => $version, 'pe_installer_source' => $pe_installer_source }.delete_undef_values )
+  run_plan('profiles::upgrade', { 'primary_host' => $primary_host, 'version' => $version, 'pe_installer_source' => $pe_installer_source }.delete_undef_values )
 }

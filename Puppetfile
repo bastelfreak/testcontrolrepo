@@ -9,10 +9,10 @@ mod 'puppetlabs/pe_status_check', # check if infra is healthy, https://github.co
 
 mod 'puppetlabs/stdlib', '9.6.0' # various datatypes used in the other modules
 
-mod 'puppetlabs-peadm', '3.21.0' # provides the peadm::convert and peadm::upgrade plans
-#mod 'puppetlabs-peadm',
-#  git: 'https://github.com/bastelfreak/puppetlabs-peadm',
-#  branch: 'url'
+#mod 'puppetlabs-peadm', '3.21.0' # provides the peadm::convert and peadm::upgrade plans
+mod 'puppetlabs-peadm',
+  git: 'https://github.com/puppetlabs/puppetlabs-peadm',
+  branch: 'facts'
 
 mod 'puppetlabs-apply_helpers', '0.3.0'     # peadm dependency
 mod 'puppet-format', '1.1.1'                # peadm dependency

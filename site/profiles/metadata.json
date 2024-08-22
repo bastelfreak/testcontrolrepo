@@ -35,6 +35,10 @@
     {
       "name": "puppet/extlib",
       "version_requirement": ">= 7.2.0 < 8.0.0"
+    },
+    {
+      "name": "ipcrm/echo",
+      "version_requirement": ">= 0.1.8 < 1.0.0"
     }
   ],
   "operatingsystem_support": [

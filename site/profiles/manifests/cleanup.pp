@@ -8,6 +8,7 @@
 #
 class profiles::cleanup (
   Boolean $show_diff = false,
+  # Update to proper datatype
   String[1] $repo = 'https://github.com/voxpupuli/controlrepo',
 ) {
   # ensure the control repos are configured correctly in Hiera
@@ -24,6 +25,7 @@ class profiles::cleanup (
     class { 'profiles::cleanup::puppetconf':
       env => $validated_env['correct_env'],
     }
+    contain profiles::cleanup::puppetconf
   }
 
   # cleanup the node classifier data only when the hiera settings are already written

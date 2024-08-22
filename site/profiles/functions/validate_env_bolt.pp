@@ -1,7 +1,11 @@
 #
+# @api private
+#
+# @see profiles::validate_env
+#
 # @author Tim Meusel <tim@bastelfreak.de>
 #
-function profiles::environment (Peadm::SingleTargetSpec $primary_host) >> Hash {
+function profiles::validate_env_bolt (Peadm::SingleTargetSpec $primary_host) >> Hash {
   $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main', '_run_as' => 'root' }
   $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent', '_run_as' => 'root' }
 

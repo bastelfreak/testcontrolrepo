@@ -5,6 +5,8 @@
 #
 # @api private
 #
+# @see profiles::validate_env
+#
 # @author Tim Meusel <tim@bastelfreak.de>
 #
 function profiles::validate_env_puppet (

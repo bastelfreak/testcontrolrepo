@@ -1,0 +1,11 @@
+---
+fixtures:
+  repositories:
+    bolt: https://github.com/voxpupuli/puppet-bolt.git
+    echo: https://github.com/ipcrm/ipcrm-echo
+    inifile: https://github.com/puppetlabs/puppetlabs-inifile.git
+    node_manager: https://github.com/puppetlabs/puppetlabs-node_manager.git
+    peadm: https://github.com/puppetlabs/puppetlabs-peadm.git
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
+    sudo: https://github.com/saz/puppet-sudo.git
+    systemd: https://github.com/voxpupuli/puppet-systemd.git

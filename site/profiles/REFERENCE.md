@@ -25,13 +25,13 @@
 
 * [`profiles::boltdir`](#profiles--boltdir): Return absolute path to bolt project directory
 * [`profiles::delete`](#profiles--delete): return absolute path to bolt project directory
-* [`profiles::environment`](#profiles--environment)
 * [`profiles::readhocon`](#profiles--readhocon): return Hocon data
 * [`profiles::validate_code_manager_sources`](#profiles--validate_code_manager_sources): ensures that we've the correct hiera data of control-repositories
 * [`profiles::validate_control_repo_sources_in_hiera`](#profiles--validate_control_repo_sources_in_hiera): ensures that we've the correct hiera data of control-repositories
 
 #### Private Functions
 
+* `profiles::validate_env_bolt`
 * `profiles::validate_env_puppet`: collect information about a configured vs used environment
 
 ### Plans
@@ -206,24 +206,6 @@ Data type: `Variant[Array,Hash]`
 ##### `key`
 
 Data type: `String[1]`
-
-
-
-### <a name="profiles--environment"></a>`profiles::environment`
-
-Type: Puppet Language
-
-The profiles::environment function.
-
-#### `profiles::environment(Peadm::SingleTargetSpec $primary_host)`
-
-The profiles::environment function.
-
-Returns: `Hash`
-
-##### `primary_host`
-
-Data type: `Peadm::SingleTargetSpec`
 
 
 

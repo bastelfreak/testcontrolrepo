@@ -7,3 +7,7 @@ defaults:  # Used for any hierarchy level that omits these keys.
 hierarchy:
   - name: common
     path: common.yaml
+
+plan_hierarchy:
+  - name: "Static data"
+    path: "static.yaml"

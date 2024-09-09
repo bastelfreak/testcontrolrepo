@@ -16,12 +16,17 @@ plan profiles::subplans::precheck (
 ) {
   # To have a clean report, we trigger a puppet run here
   # we  run it twice, in case we've a raise condition with an already running puppet agent
-  $result = run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true)
+  $run_as == system::env('RUNS_VIA_BOLT') =~ String[1] {
+    {'_run_as' => 'root'}
+  } else {
+    {}
+  }
+  $result = run_task('peadm::puppet_runonce', $primary_host, $run_as + { '_catch_errors' => true })
   # ok is true if the task was successful on all targets
   unless $result.ok {
     out::message("Final peadm::puppet_runonce failed with: ${result}")
     out::message('Trying another puppet run')
-    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root')
+    run_task('peadm::puppet_runonce', $primary_host, $run_as)
   }
 
   # check if the used environment is configured everywhere so agents don't flap by accident

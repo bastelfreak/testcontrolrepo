@@ -40,6 +40,7 @@
 
 * [`profiles::convert`](#profiles--convert): calls peadm::convert + sanity checks. supposed to be executed via systemd unit
 * [`profiles::test`](#profiles--test)
+* [`profiles::test2`](#profiles--test2)
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
@@ -48,6 +49,8 @@
 #### Private Plans
 
 * `profiles::subplans::precheck`: validates if an environment is healthy so we can do modifications or upgrades
+* `profiles::subplans::precheck::environment`: ensures that the used environment is configured properly everywhere
+* `profiles::subplans::precheck::health`: ensures that the used environment is configured properly everywhere
 
 ## Classes
 
@@ -306,6 +309,10 @@ the FQDN/common name of the primary, passed to peadm::convert
 ### <a name="profiles--test"></a>`profiles::test`
 
 The profiles::test class.
+
+### <a name="profiles--test2"></a>`profiles::test2`
+
+The profiles::test2 class.
 
 ### <a name="profiles--upgrade"></a>`profiles::upgrade`
 

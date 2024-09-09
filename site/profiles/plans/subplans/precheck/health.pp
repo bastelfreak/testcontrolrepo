@@ -106,3 +106,4 @@ plan profiles::subplans::precheck::health (
     $versionstring = $aio_agent_versions.map |$version| { $version['value'] }.join(', ')
     fail("We have a version missmatch, we found the following puppet agent versions: ${$versionstring}. All nodes need to have the same version")
   }
+}

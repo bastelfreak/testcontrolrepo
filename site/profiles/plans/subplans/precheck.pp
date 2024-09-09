@@ -21,8 +21,8 @@ plan profiles::subplans::precheck (
 ) {
   # To have a clean report, we trigger a puppet run here
   # we  run it twice, in case we've a raise condition with an already running puppet agent
-  $result = if $runs_via_bolt == true {
-    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true })
+  $result = if $runs_via_bolt {
+    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true )
   } else {
     run_task('peadm::puppet_runonce', $primary_host, '_catch_errors' => true )
   }

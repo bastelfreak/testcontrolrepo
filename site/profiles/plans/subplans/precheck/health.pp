@@ -29,13 +29,16 @@ plan profiles::subplans::precheck::health (
   # }
   $states = run_plan('pe_status_check::agent_state_summary', { 'log_healthy_nodes' => true })
 
-  # YYYY-MM-DD
-  $date = Timestamp().strftime('%Y-%m-%d')
-  # ToDo: Can we get the bolt project path?
-  # Jeffrey Clark wants to propose a PR to extlib
-  $state_path = "/opt/peadmmig/agent_state_summary__${date}.json"
-  out::verbose("profiles::subplans::precheck: writing ${state_path}")
-  file::write("/opt/peadmmig/agent_state_summary_${date}.json", $states.stdlib::to_json_pretty)
+  # PE orchestrator has currently no file::write() function
+  if $runs_via_bolt {
+    # YYYY-MM-DD
+    $date = Timestamp().strftime('%Y-%m-%d')
+    # ToDo: Can we get the bolt project path?
+    # Jeffrey Clark wants to propose a PR to extlib
+    $state_path = "/opt/peadmmig/agent_state_summary__${date}.json"
+    out::verbose("profiles::subplans::precheck: writing ${state_path}")
+    file::write("/opt/peadmmig/agent_state_summary_${date}.json", $states.stdlib::to_json_pretty)
+  }
 
   # ToDo: fail() vs fail_plan()?
   if $states['unhealthy_counter'] > 0 {
@@ -60,9 +63,11 @@ plan profiles::subplans::precheck::health (
   #   "postgres": [ ]
   # }
   $roles = run_plan('pe_status_check::infra_role_summary')
-  $summary_path = "/opt/peadmmig/infra_role_summary__${date}.json"
-  out::verbose("profiles::subplans::precheck: writing ${summary_path}")
-  file::write($summary_path, $roles.stdlib::to_json_pretty)
+  if $runs_via_bolt {
+    $summary_path = "/opt/peadmmig/infra_role_summary__${date}.json"
+    out::verbose("profiles::subplans::precheck: writing ${summary_path}")
+    file::write($summary_path, $roles.stdlib::to_json_pretty)
+  }
   $summary_table = format::table(
     {
       title => 'PE infrastructure role summary',

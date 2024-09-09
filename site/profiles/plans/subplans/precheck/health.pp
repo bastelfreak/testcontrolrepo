@@ -2,6 +2,7 @@
 # @summary ensures that the used environment is configured properly everywhere
 #
 # @param primary_host the FQDN/common name of the primary
+# @param runs_via_bolt configure if this plan and all subplans/tasks are executed via bolt or PE. Some PE functions have different signatures
 #
 # @api private
 #
@@ -9,6 +10,7 @@
 #
 plan profiles::subplans::precheck::health (
   Peadm::SingleTargetSpec $primary_host,
+  Boolean $runs_via_bolt = true,
 ) {
   # Todo: How do we handle errors resulting from run_plan? Do we always use _catch_errors and then call fail()/fail_plan()?
   # {

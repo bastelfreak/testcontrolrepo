@@ -27,12 +27,12 @@ plan profiles::subplans::precheck (
     {}
   }
   $args = { '_catch_errors' => true } + $run_as
-  $result = run_task('peadm::puppet_runonce', $primary_host, "${title}: First peadm::puppet_runonce run", $args )
+  $result = run_task('peadm::puppet_runonce', $primary_host, 'First peadm::puppet_runonce run', $args )
   # ok is true if the task was successful on all targets
   unless $result.ok {
     out::message("Final peadm::puppet_runonce failed with: ${result}")
     out::message('Trying another puppet run')
-    run_task('peadm::puppet_runonce', $primary_host, $run_as)
+    run_task('peadm::puppet_runonce', $primary_host, 'Second peadm::puppet_runonce run', $run_as)
   }
 
   # check if the used environment is configured everywhere so agents don't flap by accident

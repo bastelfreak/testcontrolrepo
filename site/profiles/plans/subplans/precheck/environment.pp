@@ -16,10 +16,10 @@ plan profiles::subplans::precheck::environment (
   # check if that's set in the puppet.conf
   # check if that's set in the pe.conf or user_data.conf
   # Update https://www.puppet.com/docs/pe/2021.7/upgrade_pe#update_environment
-  if $runs_via_bolt {
-    $run_as = { '_run_as' => 'root' }
+  $run_as = if $runs_via_bolt {
+    { '_run_as' => 'root' }
   } else {
-    $run_as = {}
+    {}
   }
   $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main' } + $run_as
   $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent' } + $run_as

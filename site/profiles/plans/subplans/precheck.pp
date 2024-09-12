@@ -11,7 +11,6 @@
 #
 # @api private
 #
-# @author Tim Meusel <tim@bastelfreak.de>
 #
 plan profiles::subplans::precheck (
   Peadm::SingleTargetSpec $primary_host,
@@ -21,7 +20,7 @@ plan profiles::subplans::precheck (
 ) {
   # To have a clean report, we trigger a puppet run here
   # we  run it twice, in case we've a raise condition with an already running puppet agent
-  $run_as= if $runs_via_bolt {
+  $run_as = if $runs_via_bolt {
     { '_run_as' => 'root' }
   } else {
     {}

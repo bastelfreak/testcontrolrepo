@@ -15,26 +15,24 @@
 #
 plan profiles::subplans::precheck (
   Peadm::SingleTargetSpec $primary_host,
-  Boolean $validate_environment = true,
-  Boolean $validate_health = true,
-  Boolean $runs_via_bolt = true,
+  Boolean                 $validate_environment = true,
+  Boolean                 $validate_health = true,
+  Boolean                 $runs_via_bolt = true,
 ) {
   # To have a clean report, we trigger a puppet run here
   # we  run it twice, in case we've a raise condition with an already running puppet agent
-  $result = if $runs_via_bolt {
-    run_task('peadm::puppet_runonce', $primary_host, '_run_as' => 'root', '_catch_errors' => true )
+  $run_as= if $runs_via_bolt {
+    { '_run_as' => 'root' }
   } else {
-    run_task('peadm::puppet_runonce', $primary_host, '_catch_errors' => true )
+    {}
   }
+  $args = { '_catch_errors' => true } + $run_as
+  $result = run_task('peadm::puppet_runonce', $primary_host, $args )
   # ok is true if the task was successful on all targets
   unless $result.ok {
     out::message("Final peadm::puppet_runonce failed with: ${result}")
     out::message('Trying another puppet run')
-    if $runs_via_bolt == true {
-      run_task('peadm::puppet_runonce', $primary_host, $run_as)
-    } else {
-      run_task('peadm::puppet_runonce', $primary_host)
-    }
+    run_task('peadm::puppet_runonce', $primary_host, $run_as)
   }
 
   # check if the used environment is configured everywhere so agents don't flap by accident

@@ -27,7 +27,7 @@ plan profiles::subplans::precheck (
     {}
   }
   $args = { '_catch_errors' => true } + $run_as
-  $result = run_task('peadm::puppet_runonce', $primary_host, "${pan_name}: First peadm::puppet_runonce run", $args )
+  $result = run_task('peadm::puppet_runonce', $primary_host, "${plan_name}: First peadm::puppet_runonce run", $args )
   # ok is true if the task was successful on all targets
   unless $result.ok {
     out::message("Final peadm::puppet_runonce failed with: ${result}")

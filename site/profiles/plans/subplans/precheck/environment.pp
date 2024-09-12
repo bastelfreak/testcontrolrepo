@@ -24,10 +24,10 @@ plan profiles::subplans::precheck::environment (
   $main  = { 'action' => 'get', 'setting' => 'environment', 'section' => 'main' } + $run_as
   $agent = { 'action' => 'get', 'setting' => 'environment', 'section' => 'agent' } + $run_as
 
-  $main_results = run_task('puppet_conf', $primary_host, 'description', $main)
+  $main_results = run_task('puppet_conf', $primary_host, 'Read environment setting from main section', $main)
   $main_env = $main_results.results[0].value['status']
 
-  $agent_results = run_task('puppet_conf', $primary_host, 'description', $agent)
+  $agent_results = run_task('puppet_conf', $primary_host, 'Read environment setting from agent section', $agent)
   $agent_env = $agent_results.results[0].value['status']
 
   $puppetdb_results = puppetdb_query("nodes[catalog_environment]{ certname = \"${primary_host}\"}")

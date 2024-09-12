@@ -39,10 +39,12 @@ plan profiles::subplans::precheck (
   # important when we do PE/Puppet updates
   if $validate_environment {
     run_plan('profiles::subplans::precheck::environment', { 'primary_host' => $primary_host, 'runs_via_bolt' => $runs_via_bolt })
+    out::message('the Puppet code environment is properly configured')
   }
 
   # check if all agents are working and the environment is healthy
   if $validate_health {
     run_plan('profiles::subplans::precheck::health', { 'primary_host' => $primary_host, 'runs_via_bolt' => $runs_via_bolt })
+    out::message('All agents are healthy and up2date')
   }
 }

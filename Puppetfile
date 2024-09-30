@@ -5,7 +5,7 @@ mod 'ipcrm/echo', '0.1.8' # for debug output during testing
 
 mod 'puppetlabs/pe_status_check', # check if infra is healthy, https://github.com/puppetlabs/puppetlabs-pe_status_check/pull/226
   git: 'https://github.com/bastelfreak/puppetlabs-pe_status_check',
-  branch: 'plans'
+  branch: 'foo'
 
 mod 'puppetlabs/stdlib', '9.6.0' # various datatypes used in the other modules
 

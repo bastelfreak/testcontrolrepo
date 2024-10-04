@@ -25,3 +25,7 @@ puppet_enterprise::profile::agent::package_inventory_enabled: true
 puppet_agent::version: 'auto'
 
 profiles::cleanup::show_diff: true
+
+# https://github.com/puppetlabs/puppet-enterprise_issues/issues/56
+# disable classifier background class import
+puppet_enterprise::profile::console::classifier_synchronization_period: 0

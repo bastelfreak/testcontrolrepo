@@ -29,3 +29,7 @@ profiles::cleanup::show_diff: true
 # https://github.com/puppetlabs/puppet-enterprise_issues/issues/56
 # disable classifier background class import
 puppet_enterprise::profile::console::classifier_synchronization_period: 0
+
+# enable node checkin
+# https://www.puppet.com/docs/pe/latest/nodes_endpoint.html
+puppet_enterprise::profile::console::classifier_node_check_in_storage: true

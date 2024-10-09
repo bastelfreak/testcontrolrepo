@@ -1,3 +1,5 @@
 node default {
-  include profiles::boltprojects
+  if $facts['pe_status_check_role'] == 'primary' {
+    include profiles::boltprojects
+  }
 }

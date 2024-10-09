@@ -8,9 +8,9 @@
 # @author Tim Meusel <tim@bastelfreak.de>
 #
 class profiles::boltprojects (
-  Peadm::Pe_version $version = '2021.7.8',
+  Peadm::Pe_version $version = '2021.7.9',
   Peadm::Pe_version $version_2021 = $version,
-  Peadm::Pe_version $version_2023 = '2023.7.0',
+  Peadm::Pe_version $version_2023 = '2023.8.0',
 ) {
   # create a new bolt project
   bolt::project { 'peadmmig': }
@@ -31,6 +31,16 @@ class profiles::boltprojects (
     content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2021 }.stdlib::to_json_pretty,
   }
   -> file { '/opt/peadmmig/profiles::upgradeto2023.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023 }.stdlib::to_json_pretty,
+  }
+  -> file { '/opt/peadmmig/profiles::convertandupgradeto2021.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2021 }.stdlib::to_json_pretty,
+  }
+  -> file { '/opt/peadmmig/profiles::convertandupgradeto2023.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
     content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023 }.stdlib::to_json_pretty,

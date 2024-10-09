@@ -74,7 +74,7 @@ Data type: `Peadm::Pe_version`
 
 our default version to upgrade to
 
-Default value: `'2021.7.8'`
+Default value: `'2021.7.9'`
 
 ##### <a name="-profiles--boltprojects--version_2021"></a>`version_2021`
 
@@ -90,7 +90,7 @@ Data type: `Peadm::Pe_version`
 
 latest PE 2023 version
 
-Default value: `'2023.7.0'`
+Default value: `'2023.8.0'`
 
 ### <a name="profiles--cleanup"></a>`profiles::cleanup`
 

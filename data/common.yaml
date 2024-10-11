@@ -35,7 +35,8 @@ puppet_enterprise::profile::console::classifier_synchronization_period: 0
 puppet_enterprise::profile::console::classifier_node_check_in_storage: true
 
 # https://www.puppet.com/docs/pe/2023.8/release_notes_pe#release_notes_pe_x-8-enhancements-pe-x-8
-puppet_enterprise::master::puppetserver::settings_catalog: true
+# https://www.puppet.com/docs/puppet/8/configuration.html#settings-catalog
+puppet_enterprise::master::puppetserver::settings_catalog: false
 
 puppet_enterprise::master::file_sync::chown_code_to_pe_puppet: false
 

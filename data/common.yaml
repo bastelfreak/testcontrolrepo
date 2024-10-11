@@ -30,14 +30,20 @@ profiles::cleanup::show_diff: true
 # disable classifier background class import
 puppet_enterprise::profile::console::classifier_synchronization_period: 0
 
-# enable node checkin
+# enable node checkin logging
 # https://www.puppet.com/docs/pe/latest/nodes_endpoint.html
 puppet_enterprise::profile::console::classifier_node_check_in_storage: true
 
 # https://www.puppet.com/docs/pe/2023.8/release_notes_pe#release_notes_pe_x-8-enhancements-pe-x-8
 # https://www.puppet.com/docs/puppet/8/configuration.html#settings-catalog
+# Speedup JRuby startup
 puppet_enterprise::master::puppetserver::settings_catalog: false
 
+# https://www.puppet.com/docs/pe/2023.8/release_notes_pe#release_notes_pe_x-8-enhancements-pe-x-8
+# disables `chown` on code dir during puppet run
 puppet_enterprise::master::file_sync::chown_code_to_pe_puppet: false
 
+# https://www.puppet.com/docs/pe/2023.8/release_notes_pe#release_notes_pe_x-8-enhancements-pe-x-8
+# The underlying copy implementation to use in versioned deploys.
+# The 'java' option will use Files.copy, while 'shell-cp' will use `/bin/cp`.
 puppet_enterprise::master::file_sync::copy_method: 'shell-cp'

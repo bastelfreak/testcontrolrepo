@@ -14,7 +14,6 @@ plan profiles::upgrade (
   Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
   Enum['direct','bolthost']  $download_mode = 'bolthost',
 ) {
-
   # In their infinite wisdom, the Puppet security team (a single person that doesn't know the product),
   # decided that it's insecure when PEADM can download the installer archive from an internal mirror
   # Because of that, we need to download the installer before doing the upgrade.

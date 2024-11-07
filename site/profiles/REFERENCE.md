@@ -318,6 +318,7 @@ The following parameters are available in the `profiles::convertandupgradeto2021
 
 * [`primary_host`](#-profiles--convertandupgradeto2021--primary_host)
 * [`version`](#-profiles--convertandupgradeto2021--version)
+* [`pe_installer_source`](#-profiles--convertandupgradeto2021--pe_installer_source)
 
 ##### <a name="-profiles--convertandupgradeto2021--primary_host"></a>`primary_host`
 
@@ -331,7 +332,15 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2021.8.0'`
+Default value: `'2021.7.9'`
+
+##### <a name="-profiles--convertandupgradeto2021--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
 
 ### <a name="profiles--convertandupgradeto2023"></a>`profiles::convertandupgradeto2023`
 
@@ -343,6 +352,7 @@ The following parameters are available in the `profiles::convertandupgradeto2023
 
 * [`primary_host`](#-profiles--convertandupgradeto2023--primary_host)
 * [`version`](#-profiles--convertandupgradeto2023--version)
+* [`pe_installer_source`](#-profiles--convertandupgradeto2023--pe_installer_source)
 
 ##### <a name="-profiles--convertandupgradeto2023--primary_host"></a>`primary_host`
 
@@ -357,6 +367,14 @@ Data type: `Peadm::Pe_version`
 always points to the latest LTS
 
 Default value: `'2023.8.0'`
+
+##### <a name="-profiles--convertandupgradeto2023--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
 
 ### <a name="profiles--test"></a>`profiles::test`
 
@@ -377,6 +395,7 @@ The following parameters are available in the `profiles::upgrade` plan:
 * [`primary_host`](#-profiles--upgrade--primary_host)
 * [`version`](#-profiles--upgrade--version)
 * [`pe_installer_source`](#-profiles--upgrade--pe_installer_source)
+* [`download_mode`](#-profiles--upgrade--download_mode)
 
 ##### <a name="-profiles--upgrade--primary_host"></a>`primary_host`
 
@@ -390,7 +409,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2021.7.8'`
+Default value: `'2021.7.9'`
 
 ##### <a name="-profiles--upgrade--pe_installer_source"></a>`pe_installer_source`
 
@@ -399,6 +418,14 @@ Data type: `Optional[Stdlib::HTTPSUrl]`
 optional URL to the PE builds, can point to a webdir or absolute URL
 
 Default value: `undef`
+
+##### <a name="-profiles--upgrade--download_mode"></a>`download_mode`
+
+Data type: `Enum['direct','bolthost']`
+
+if peadm should download the installer and upload to targets, or if targets should download it on their own
+
+Default value: `'bolthost'`
 
 ### <a name="profiles--upgradeto2021"></a>`profiles::upgradeto2021`
 
@@ -424,7 +451,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2021.7.8'`
+Default value: `'2021.7.9'`
 
 ##### <a name="-profiles--upgradeto2021--pe_installer_source"></a>`pe_installer_source`
 
@@ -458,7 +485,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2023.7.0'`
+Default value: `'2023.8.0'`
 
 ##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
 

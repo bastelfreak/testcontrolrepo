@@ -6,7 +6,6 @@
 #
 # @api private
 #
-# @author Tim Meusel <tim@bastelfreak.de>
 #
 plan profiles::subplans::precheck::environment (
   Peadm::SingleTargetSpec $primary_host,

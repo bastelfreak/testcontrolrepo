@@ -8,7 +8,7 @@
 #
 plan profiles::convertandupgradeto2021 (
   Peadm::SingleTargetSpec $primary_host,
-  Peadm::Pe_version $version = '2021.8.0',
+  Peadm::Pe_version $version = '2021.7.9',
 ) {
   run_plan('profiles::convert', { 'primary_host' => $primary_host,})
   $data = {

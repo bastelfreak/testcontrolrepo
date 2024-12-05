@@ -22,7 +22,10 @@ mod 'puppetlabs-package', '3.0.1'           # peadm dependency
 mod 'puppetlabs-inifile', '6.1.1'           # peadm dependency
 mod 'puppetlabs-ruby_task_helper', '0.6.1'  # peadm dependency
 
-mod 'puppetlabs-puppet_agent', '4.20.1' # configures puppet agent
+#mod 'puppetlabs-puppet_agent', '4.20.1' # configures puppet agent
+mod 'puppetlabs-puppet_agent',
+  git: 'https://github.com/bastelfreak/puppetlabs-puppet_agent',
+  branch: 'tags'
 mod 'puppetlabs-facts', '1.4.0'         # puppet_agent dependency
 mod 'puppetlabs/puppet_conf', '2.0.0'   # retrieves/updates the environment option in puppet.conf
 mod 'puppet/extlib', '7.2.0'            # retrieves/updates the environment option in puppet.conf

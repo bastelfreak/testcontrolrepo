@@ -12,6 +12,16 @@ To see how we create the bolt project to start bolt via PE-Orchestrator, go to: 
 
 To see my config management talk about it, check: https://cfp.cfgmgmtcamp.org/ghent2025/talk/9NUL9E/
 
+To test this:
+
+* Configure this repo as your control-repo
+* create an environment nodegroup for `peadm`, assign your primary to it
+* Assign the `profiles::cleanup` and `profiles::boltprojects` classes
+
+* run your puppet agent
+
+to conert and Upgrade, take a look at the plans in `site/profiles/plans`
+
 ## License
 
 GPL-3.0-only, see LICENSE file

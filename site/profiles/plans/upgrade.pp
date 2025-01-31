@@ -51,7 +51,13 @@ plan profiles::upgrade (
   }
   run_plan('profiles::subplans::precheck', { 'primary_host' => $primary_host })
 
-  run_plan('peadm::upgrade', { 'primary_host' => $primary_host, 'version' => $version, '_run_as' => 'root' }.delete_undef_values)
+  $upgrade_params = {
+    'primary_host' => $primary_host,
+    'version' => $version,
+    'permit_unsafe_versions' => true ,
+    '_run_as' => 'root',
+  }.delete_undef_values
+  run_plan('peadm::upgrade', $upgrade_params)
 
   # peadm::upgrade doesn't do a final puppet run without changed resources
   # To have a clean report, we trigger a puppet run here

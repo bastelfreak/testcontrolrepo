@@ -41,6 +41,7 @@
 * [`profiles::convert`](#profiles--convert): calls peadm::convert + sanity checks. supposed to be executed via systemd unit
 * [`profiles::convertandupgradeto2021`](#profiles--convertandupgradeto2021): calls peadm::convert & peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::convertandupgradeto2023`](#profiles--convertandupgradeto2023): calls peadm::convert & peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+* [`profiles::convertandupgradeto2025`](#profiles--convertandupgradeto2025): calls peadm::convert & peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::test`](#profiles--test)
 * [`profiles::test2`](#profiles--test2)
 * [`profiles::upgrade`](#profiles--upgrade): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
@@ -379,6 +380,40 @@ always points to the latest LTS
 Default value: `'2023.8.1'`
 
 ##### <a name="-profiles--convertandupgradeto2023--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
+
+Default value: `undef`
+
+### <a name="profiles--convertandupgradeto2025"></a>`profiles::convertandupgradeto2025`
+
+calls peadm::convert & peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::convertandupgradeto2025` plan:
+
+* [`primary_host`](#-profiles--convertandupgradeto2025--primary_host)
+* [`version`](#-profiles--convertandupgradeto2025--version)
+* [`pe_installer_source`](#-profiles--convertandupgradeto2025--pe_installer_source)
+
+##### <a name="-profiles--convertandupgradeto2025--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
+
+##### <a name="-profiles--convertandupgradeto2025--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+always points to the latest LTS
+
+Default value: `'2025.0.0'`
+
+##### <a name="-profiles--convertandupgradeto2025--pe_installer_source"></a>`pe_installer_source`
 
 Data type: `Optional[Stdlib::HTTPSUrl]`
 

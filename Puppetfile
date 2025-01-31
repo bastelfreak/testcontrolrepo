@@ -27,7 +27,10 @@ mod 'puppetlabs-facts', '1.7.0'         # puppet_agent dependency
 mod 'puppetlabs/puppet_conf', '2.1.0'   # retrieves/updates the environment option in puppet.conf
 mod 'puppet/extlib', '7.4.0'            # retrieves/updates the environment option in puppet.conf
 
-mod 'puppet/bolt', '1.7.0'    # installs bolt
+#mod 'puppet/bolt', '1.7.0'    # installs bolt
+mod 'https://github.com/bastelfreak/puppet-bolt',
+  git: 'https://github.com/bastelfreak/puppet-bolt',
+  branch: 'params'
 mod 'puppet/systemd', '8.1.0' # required to write the bolt unit
 mod 'saz-sudo', '9.0.0'       # required because we call peadm::* as normal user
 

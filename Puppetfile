@@ -28,7 +28,7 @@ mod 'puppetlabs/puppet_conf', '2.1.0'   # retrieves/updates the environment opti
 mod 'puppet/extlib', '7.4.0'            # retrieves/updates the environment option in puppet.conf
 
 #mod 'puppet/bolt', '1.7.0'    # installs bolt
-mod 'https://github.com/bastelfreak/puppet-bolt',
+mod 'puppet/bolt',
   git: 'https://github.com/bastelfreak/puppet-bolt',
   branch: 'params'
 mod 'puppet/systemd', '8.1.0' # required to write the bolt unit

@@ -47,6 +47,7 @@
 * [`profiles::upgradeto2021`](#profiles--upgradeto2021): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023`](#profiles--upgradeto2023): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 * [`profiles::upgradeto2023url`](#profiles--upgradeto2023url): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+* [`profiles::upgradeto2025`](#profiles--upgradeto2025): calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
 
 #### Private Plans
 
@@ -67,6 +68,7 @@ The following parameters are available in the `profiles::boltprojects` class:
 * [`version`](#-profiles--boltprojects--version)
 * [`version_2021`](#-profiles--boltprojects--version_2021)
 * [`version_2023`](#-profiles--boltprojects--version_2023)
+* [`version_2025`](#-profiles--boltprojects--version_2025)
 
 ##### <a name="-profiles--boltprojects--version"></a>`version`
 
@@ -90,7 +92,15 @@ Data type: `Peadm::Pe_version`
 
 latest PE 2023 version
 
-Default value: `'2023.8.0'`
+Default value: `'2023.8.1'`
+
+##### <a name="-profiles--boltprojects--version_2025"></a>`version_2025`
+
+Data type: `Peadm::Pe_version`
+
+latest PE 2025 version
+
+Default value: `'2025.0.0'`
 
 ### <a name="profiles--cleanup"></a>`profiles::cleanup`
 
@@ -366,7 +376,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2023.8.0'`
+Default value: `'2023.8.1'`
 
 ##### <a name="-profiles--convertandupgradeto2023--pe_installer_source"></a>`pe_installer_source`
 
@@ -485,7 +495,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2023.8.0'`
+Default value: `'2023.8.1'`
 
 ##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
 
@@ -526,6 +536,40 @@ Default value: `'2023.7.0'`
 Data type: `Optional[Stdlib::HTTPSUrl]`
 
 
+
+Default value: `undef`
+
+### <a name="profiles--upgradeto2025"></a>`profiles::upgradeto2025`
+
+calls peadm::upgrade + sanity checks. supposed to be executed via systemd unit
+
+#### Parameters
+
+The following parameters are available in the `profiles::upgradeto2025` plan:
+
+* [`primary_host`](#-profiles--upgradeto2025--primary_host)
+* [`version`](#-profiles--upgradeto2025--version)
+* [`pe_installer_source`](#-profiles--upgradeto2025--pe_installer_source)
+
+##### <a name="-profiles--upgradeto2025--primary_host"></a>`primary_host`
+
+Data type: `Peadm::SingleTargetSpec`
+
+the FQDN/common name of the primary, passed to peadm::convert
+
+##### <a name="-profiles--upgradeto2025--version"></a>`version`
+
+Data type: `Peadm::Pe_version`
+
+always points to the latest LTS
+
+Default value: `'2025.0.0'`
+
+##### <a name="-profiles--upgradeto2025--pe_installer_source"></a>`pe_installer_source`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+optional URL to the PE builds, can point to a webdir or absolute URL
 
 Default value: `undef`
 

@@ -4,6 +4,7 @@
 # @param version our default version to upgrade to
 # @param version_2021 latest PE 2021 version
 # @param version_2023 latest PE 2023 version
+# @param version_2025 latest PE 2025 version
 #
 # @author Tim Meusel <tim@bastelfreak.de>
 #
@@ -11,6 +12,7 @@ class profiles::boltprojects (
   Peadm::Pe_version $version = '2021.7.9',
   Peadm::Pe_version $version_2021 = $version,
   Peadm::Pe_version $version_2023 = '2023.8.1',
+  Peadm::Pe_version $version_2025 = '2025.0.0',
 ) {
   # create a new bolt project
   bolt::project { 'peadmmig': }
@@ -35,6 +37,11 @@ class profiles::boltprojects (
     group   => 'peadmmig',
     content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023 }.stdlib::to_json_pretty,
   }
+  -> file { '/opt/peadmmig/profiles::upgradeto2025.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2025 }.stdlib::to_json_pretty,
+  }
   -> file { '/opt/peadmmig/profiles::convertandupgradeto2021.json':
     owner   => 'peadmmig',
     group   => 'peadmmig',
@@ -44,5 +51,10 @@ class profiles::boltprojects (
     owner   => 'peadmmig',
     group   => 'peadmmig',
     content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2023 }.stdlib::to_json_pretty,
+  }
+  -> file { '/opt/peadmmig/profiles::convertandupgradeto2025.json':
+    owner   => 'peadmmig',
+    group   => 'peadmmig',
+    content => { 'primary_host' => $facts['networking']['fqdn'], 'version' => $version_2025 }.stdlib::to_json_pretty,
   }
 }

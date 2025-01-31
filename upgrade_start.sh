@@ -4,6 +4,10 @@ primary="$(puppet config print server)"
 auth_header="X-Authentication: $(puppet-access show)"
 type_header='Content-Type: application/json'
 uri="https://$primary:8143/orchestrator/v1/command/task"
+cacert="$(puppet config print localcacert)"
+
+curl="curl --cacert ${cacert} --silent"
+
 taskdata='
 { "scope": {
     "nodes": [ "'${primary}'" ] },
@@ -11,10 +15,10 @@ taskdata='
     "action": "start",
     "name": "peadmmig@profiles::upgradeto2021.service" },
   "task": "service::linux",
-  "environment": "production"
+  "environment": "peadm"
 }'
 
 echo '# PAYLOAD'
 echo "$taskdata" | jq .
 
-curl --silent --insecure --header "$type_header" --header "$auth_header" --request POST "$uri" --data "$taskdata" | jq .
+${curl} --header "$type_header" --header "$auth_header" --request POST "$uri" --data "$taskdata" | jq .

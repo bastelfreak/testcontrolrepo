@@ -55,6 +55,15 @@ Start a convert and upgrade to PE 2023.8.1
 ```
 systemctl start peadmmig@profiles::convertandupgradeto2023.service
 ```
+
+This repository has a few scripts to start the plans, as tasks, via the Orchestrator API
+
+* upgrade_start.sh
+* upgrade_status.sh
+* convert_start.sh
+* convert_status.sh
+* deploy_code.sh
+
 ## License
 
 GPL-3.0-only, see LICENSE file

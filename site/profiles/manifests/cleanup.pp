@@ -55,6 +55,7 @@ class profiles::cleanup (
     }
   }
 
-  # validate hiera data for puppet agents
+  # validate hiera data
   contain profiles::cleanup::agent
+  contain profiles::cleanup::classifier
 }

@@ -26,7 +26,7 @@ mod 'puppet/extlib', '7.4.0'            # retrieves/updates the environment opti
 
 mod 'puppet/bolt', '1.8.0'    # installs bolt
 mod 'puppet/systemd', '8.1.0' # required to write the bolt unit
-mod 'saz-sudo', '9.0.0'       # required because we call peadm::* as normal user
+mod 'saz-sudo', '9.0.1'       # required because we call peadm::* as normal user
 
 mod 'puppetlabs-facter_task', '2.1.0' # for debugging
 mod 'puppetlabs-exec', '3.1.0'        # for debugging

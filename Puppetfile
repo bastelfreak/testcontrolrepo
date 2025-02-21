@@ -3,10 +3,7 @@ mod 'puppetlabs/node_manager', '1.1.0' # to cleanup existing node groups, was mi
 
 mod 'ipcrm/echo', '0.1.8' # for debug output during testing
 
-#mod 'puppetlabs/pe_status_check', :latest
-mod 'puppetlabs/pe_status_check', # check if infra is healthy, https://github.com/puppetlabs/puppetlabs-pe_status_check/pull/226
-  git: 'https://github.com/bastelfreak/puppetlabs-pe_status_check',
-  branch: 'hash'
+mod 'puppetlabs/pe_status_check', '4.6.0' # implements prechecks
 
 mod 'puppetlabs/stdlib', '9.7.0' # various datatypes used in the other modules
 

@@ -9,7 +9,7 @@
 #
 plan profiles::upgradeto2025 (
   Peadm::SingleTargetSpec $primary_host,
-  Peadm::Pe_version $version = '2025.0.0',
+  Peadm::Pe_version $version = '2025.1.0',
   Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
 ) {
   run_plan('profiles::upgrade', { 'primary_host' => $primary_host, 'version' => $version, 'pe_installer_source' => $pe_installer_source }.delete_undef_values )

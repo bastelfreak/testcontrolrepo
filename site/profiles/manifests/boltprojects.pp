@@ -11,8 +11,8 @@
 class profiles::boltprojects (
   Peadm::Pe_version $version = '2021.7.9',
   Peadm::Pe_version $version_2021 = $version,
-  Peadm::Pe_version $version_2023 = '2023.8.1',
-  Peadm::Pe_version $version_2025 = '2025.0.0',
+  Peadm::Pe_version $version_2023 = '2023.8.2',
+  Peadm::Pe_version $version_2025 = '2025.1.0',
 ) {
   # create a new bolt project
   bolt::project { 'peadmmig': }

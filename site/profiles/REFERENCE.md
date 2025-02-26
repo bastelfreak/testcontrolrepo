@@ -94,7 +94,7 @@ Data type: `Peadm::Pe_version`
 
 latest PE 2023 version
 
-Default value: `'2023.8.1'`
+Default value: `'2023.8.2'`
 
 ##### <a name="-profiles--boltprojects--version_2025"></a>`version_2025`
 
@@ -102,7 +102,7 @@ Data type: `Peadm::Pe_version`
 
 latest PE 2025 version
 
-Default value: `'2025.0.0'`
+Default value: `'2025.1.0'`
 
 ### <a name="profiles--cleanup"></a>`profiles::cleanup`
 
@@ -378,7 +378,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2023.8.1'`
+Default value: `'2023.8.2'`
 
 ##### <a name="-profiles--convertandupgradeto2023--pe_installer_source"></a>`pe_installer_source`
 
@@ -412,7 +412,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2025.0.0'`
+Default value: `'2025.1.0'`
 
 ##### <a name="-profiles--convertandupgradeto2025--pe_installer_source"></a>`pe_installer_source`
 
@@ -531,7 +531,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2023.8.1'`
+Default value: `'2023.8.2'`
 
 ##### <a name="-profiles--upgradeto2023--pe_installer_source"></a>`pe_installer_source`
 
@@ -599,7 +599,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2025.0.0'`
+Default value: `'2025.1.0'`
 
 ##### <a name="-profiles--upgradeto2025--pe_installer_source"></a>`pe_installer_source`
 

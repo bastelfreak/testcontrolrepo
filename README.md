@@ -50,10 +50,16 @@ watching the service
 journalctl --unit peadmmig@profiles::convert.service --follow
 ```
 
-Start a convert and upgrade to PE 2023.8.1
+Start a convert and upgrade to PE 2023.8.2
 
 ```
 systemctl start peadmmig@profiles::convertandupgradeto2023.service
+```
+
+Or to 2025.1.0:
+
+```
+systemctl start peadmmig@profiles::convertandupgradeto2025.service
 ```
 
 This repository has a few scripts to start the plans, as tasks, via the Orchestrator API

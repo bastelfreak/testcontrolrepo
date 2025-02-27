@@ -64,6 +64,10 @@ This repository has a few scripts to start the plans, as tasks, via the Orchestr
 * convert_status.sh
 * deploy_code.sh
 
+There is also one script to create an environment node group:
+
+* [create_env_group.sh](create_env_group.sh)
+
 ## License
 
 GPL-3.0-only, see LICENSE file

@@ -78,7 +78,7 @@ Data type: `Peadm::Pe_version`
 
 our default version to upgrade to
 
-Default value: `'2021.7.9'`
+Default value: `'2021.7.10'`
 
 ##### <a name="-profiles--boltprojects--version_2021"></a>`version_2021`
 
@@ -455,7 +455,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2021.7.9'`
+Default value: `'2021.7.10'`
 
 ##### <a name="-profiles--upgrade--pe_installer_source"></a>`pe_installer_source`
 
@@ -497,7 +497,7 @@ Data type: `Peadm::Pe_version`
 
 always points to the latest LTS
 
-Default value: `'2021.7.9'`
+Default value: `'2021.7.10'`
 
 ##### <a name="-profiles--upgradeto2021--pe_installer_source"></a>`pe_installer_source`
 

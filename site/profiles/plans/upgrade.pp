@@ -10,7 +10,7 @@
 #
 plan profiles::upgrade (
   Peadm::SingleTargetSpec $primary_host,
-  Peadm::Pe_version $version = '2021.7.9',
+  Peadm::Pe_version $version = '2021.7.10',
   Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
   Enum['direct','bolthost']  $download_mode = 'bolthost',
 ) {

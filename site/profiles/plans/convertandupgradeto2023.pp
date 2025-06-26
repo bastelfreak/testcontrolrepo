@@ -9,7 +9,7 @@
 #
 plan profiles::convertandupgradeto2023 (
   Peadm::SingleTargetSpec $primary_host,
-  Peadm::Pe_version $version = '2023.8.3',
+  Peadm::Pe_version $version = '2023.8.4',
   Optional[Stdlib::HTTPSUrl] $pe_installer_source = undef,
 
 ) {

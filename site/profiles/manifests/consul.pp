@@ -11,4 +11,9 @@ class profiles::consul {
       'server'   => true,
     },
   }
+  systemd::dropin_file { 'foo.conf':
+    unit           => 'consul.service',
+    content        => "[Unit]\nConditionFileNotEmpty=\nConditionFileNotEmpty=/etc/consul.d/config.json",
+    notify_service => true,
+  }
 }

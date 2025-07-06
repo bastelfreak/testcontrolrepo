@@ -42,4 +42,4 @@ mod 'puppetlabs/apt', :latest
 mod 'puppetlabs/postgresql', :latest
 mod 'puppet/patroni',
   git: 'https://github.com/voxpupuli/puppet-patroni',
-  branch: 'master'
+  branch: 'main'

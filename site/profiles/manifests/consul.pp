@@ -12,23 +12,27 @@ class profiles::consul {
     manage_group    => false,
     manage_user     => false,
     config_dir      => '/etc/consul.d/',
+    pretty_config        => true,
+    pretty_config_indent => 2,
     config_hash     => {
       'server'    => true,
       'bind_addr' => '[::]',
-        'retry_join'                 => sort($nodes),
-        'tls'                        => {
-          'defaults'    => {
-            'verify_outgoing' => true,
-            'verify_incoming' => true,
-            'ca_file'         => '/etc/consul.d/ca.pem',
-            'cert_file'       => "/etc/consul.d/${trusted['certname']}_cert.pem",
-            'key_file'        => "/etc/consul.d/${trusted['certname']}_key.pem",
-          },
+      'retry_join'                 => sort($nodes),
+      'tls'                        => {
+        'defaults'    => {
+          'verify_outgoing' => true,
+          'verify_incoming' => true,
+          'ca_file'         => '/etc/consul.d/ca.pem',
+          'cert_file'       => "/etc/consul.d/${trusted['certname']}_cert.pem",
+          'key_file'        => "/etc/consul.d/${trusted['certname']}_key.pem",
         },
-        'server_name'                => $trusted['certname'],
-        'node_name'                  => $trusted['certname'],
-        'disable_update_check'       => true,
-        'enable_local_script_checks' => true,
+      },
+      'server_name'                => $trusted['certname'],
+      'node_name'                  => $trusted['certname'],
+      'disable_update_check'       => true,
+      'enable_local_script_checks' => true,
+      'bootstrap_expect'           => 3,
+      'ui_config'                  => { 'enabled' => true, },
     },
   }
   systemd::dropin_file { 'foo.conf':

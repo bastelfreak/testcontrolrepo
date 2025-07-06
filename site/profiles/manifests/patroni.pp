@@ -42,7 +42,7 @@ class profiles::patroni {
     owner   => 'postgres',
     group   => 'postgres',
     mode    => '0400',
-    source  => $cert,
+    source  => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['certname']}.pem",
     require => Package['patroni'],
     notify  => Service['patroni'],
   }

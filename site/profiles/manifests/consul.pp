@@ -8,7 +8,8 @@ class profiles::consul {
     manage_user     => false,
     config_dir      => '/etc/consul.d/',
     config_hash     => {
-      'server'   => true,
+      'server'    => true,
+      'bind_addr' => '[::]',
     },
   }
   systemd::dropin_file { 'foo.conf':

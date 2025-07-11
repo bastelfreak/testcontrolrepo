@@ -17,26 +17,26 @@ plan profile::p2a_recertify(
   out::message("Found following nodes: ${nodes.join(' ')}")
 
   $nodes.each |$node| {
-    $data_valid_certname = {myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
-    $valid_certname = run_task('profile::recertify_node_yolo', $primary, "valid_certname for ${node}"), $data_valid_certname)
-    unless $valid_certname.ok {
-      warning("Node ${node} not known to Primary. Result=${valid_certname.error_set.names}")
-      next()
-    }
+    #$data_valid_certname = {myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    #$valid_certname = run_task('profile::recertify_node_yolo', $primary, "valid_certname for ${node}"), $data_valid_certname)
+    #unless $valid_certname.ok {
+    #  warning("Node ${node} not known to Primary. Result=${valid_certname.error_set.names}")
+    #  next()
+    #}
 
-    $data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
-    $precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)
-    unless $precheck_p2a_server.ok {
-      warning("Node ${node} has no replacement certificate signing request in gitlab Result=${precheck_p2a_server.error_set.names}")
-      next()
-    }
+    #$data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    #$precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)
+    #unless $precheck_p2a_server.ok {
+    #  warning("Node ${node} has no replacement certificate signing request in gitlab Result=${precheck_p2a_server.error_set.names}")
+    #  next()
+    #}
 
-    $data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
-    $download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)
-    unless $download_p2a_csr.ok {
-      warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
-      next()
-    }
+    #$data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
+    #$download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)
+    #unless $download_p2a_csr.ok {
+    #  warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
+    #  next()
+    #}
 
     $data_release_node = {myfunction => 'release_node', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
     $release_node = run_task('profile::recertify_node_yolo', $primary, "release_node for ${node}", $data_release_node)

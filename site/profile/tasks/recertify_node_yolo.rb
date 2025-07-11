@@ -4,7 +4,7 @@ require 'json'
 
 data = JSON.parse(STDIN.read)
 
-if data['myfunction'] = 'download_p2a_csr' && data['singlenode'] == 'pe.tim.betadots.training'
+if data['myfunction'] == 'download_p2a_csr' && data['singlenode'] == 'pe.tim.betadots.training'
   puts 'ahhhh karpott'
   exit 2
 else

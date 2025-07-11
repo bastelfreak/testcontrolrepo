@@ -27,7 +27,8 @@ plan profile::p2a_recertify(
       next()
     }
 
-    $download_p2a_csr=run_task('profile::recertify_node_yolo', $node, myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true)
+    $data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
+    $download_p2a_csr=run_task('profile::recertify_node_yolo', $node, "download_p2a_csr on ${node}", $data_download_p2a_csr)
     unless $download_p2a_csr.ok {
       warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
       next()
@@ -42,6 +43,7 @@ plan profile::p2a_recertify(
     $rmdir_ssl=run_task('profile::recertify_node_yolo', $node, myfunction => 'rmdir_ssl', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
     unless $rmdir_ssl.ok {
       warning("Node ${node} unknown error. Releasing and re-registering failed.")
+      next()
     }
 
     $agentrun=run_task('profile::recertify_node_yolo', $node, myfunction => 'agent_run', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)

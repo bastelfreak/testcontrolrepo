@@ -17,12 +17,12 @@ plan profile::p2a_recertify(
   out::message("Found following nodes: ${nodes.join(' ')}")
 
   $nodes.each |$node| {
-    #$data_valid_certname = {myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
-    #$valid_certname = run_task('profile::recertify_node_yolo', $primary, "valid_certname for ${node}"), $data_valid_certname)
-    #unless $valid_certname.ok {
-    #  warning("Node ${node} not known to Primary. Result=${valid_certname.error_set.names}")
-    #  next()
-    #}
+    $data_valid_certname = {myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $valid_certname = run_task('profile::recertify_node_yolo', $primary, "valid_certname for ${node}", $data_valid_certname)
+    unless $valid_certname.ok {
+      warning("Node ${node} not known to Primary. Result=${valid_certname.error_set.names}")
+      next()
+    }
 
     $data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
     $precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)

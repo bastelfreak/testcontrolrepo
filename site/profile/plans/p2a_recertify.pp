@@ -24,12 +24,12 @@ plan profile::p2a_recertify(
     #  next()
     #}
 
-    #$data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
-    #$precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)
-    #unless $precheck_p2a_server.ok {
-    #  warning("Node ${node} has no replacement certificate signing request in gitlab Result=${precheck_p2a_server.error_set.names}")
-    #  next()
-    #}
+    $data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)
+    unless $precheck_p2a_server.ok {
+      warning("Node ${node} has no replacement certificate signing request in gitlab Result=${precheck_p2a_server.error_set.names}")
+      next()
+    }
 
     $data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
     $download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)

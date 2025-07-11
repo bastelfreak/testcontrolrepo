@@ -1,0 +1,26 @@
+{
+  "description": "Test task",
+  "parameters": {
+    "myfunction": {
+      "type": "String",
+      "description": "A string"
+    },
+    "singlenode": {
+      "type": "String",
+      "description": "A FQDN"
+    },
+    "nodelist": {
+      "type": "Array[String]",
+      "description": "A FQDN list"
+    },
+    "debug": {
+      "type": "String",
+      "description": "test",
+      "default": "test"
+    }
+  },
+  "input_method": "stdin",
+  "implementations": [
+    {"name": "recertify_node_yolo.rb"}
+  ]
+}

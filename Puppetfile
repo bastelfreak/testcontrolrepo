@@ -30,16 +30,3 @@ mod 'saz-sudo', '9.0.1'       # required because we call peadm::* as normal user
 
 mod 'puppetlabs-facter_task', '2.1.0' # for debugging
 mod 'puppetlabs-exec', '3.1.0'        # for debugging
-
-# consul
-mod 'puppet/consul',
-  git: 'https://github.com/bastelfreak/puppet-consul',
-  branch: 'archive'
-mod 'puppet/hashi_stack',
-  git: 'https://github.com/voxpupuli/puppet-hashi_stack',
-  branch: 'master'
-mod 'puppetlabs/apt', :latest
-mod 'puppetlabs/postgresql', :latest
-mod 'puppet/patroni',
-  git: 'https://github.com/voxpupuli/puppet-patroni',
-  branch: 'main'

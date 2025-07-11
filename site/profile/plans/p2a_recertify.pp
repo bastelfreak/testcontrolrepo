@@ -25,7 +25,7 @@ plan profile::p2a_recertify(
       fail("Node ${single_node} not known to Primary. Result=${result.error_set.names}")
     }
   }
-  $node_list.each|$single_node|{
+  $nodes.each|$single_node|{
     $result=run_task(
       'profile::recertify_node_yolo',
       $primary,
@@ -35,7 +35,7 @@ plan profile::p2a_recertify(
       fail("Node ${single_node} has no replacement certificate signing request in gitlab Result=${result.error_set.names}")
     }
   }
-  $node_list.each|$single_node|{
+  $nodes.each|$single_node|{
     $result=run_task(
       'profile::recertify_node_yolo',
       $single_node,
@@ -46,7 +46,7 @@ plan profile::p2a_recertify(
     }
   }
 
-  $node_list.each|$single_node|{
+  $nodes.each|$single_node|{
     $release=run_task(
       'profile::recertify_node_yolo',
       $primary,

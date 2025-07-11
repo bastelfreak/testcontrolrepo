@@ -12,7 +12,7 @@ plan profile::p2a_recertify(
   # https://www.puppet.com/docs/puppetdb/8/api/query/v4/pql.html#array-match-in
   $nodes = $node_list.map |$substring| {
     $nodes = puppetdb_query("inventory[certname] { certname ~ '${substring}' }").map |$node| { $node['certname'] }
-  }.unique
+  }.flatten.unique
 
 #   puppet task run profile::recertify_node_yolo.sh --params '{"my_function":"valid_certname"}' --node PRIMARY
   $nodes.each|$single_node|{

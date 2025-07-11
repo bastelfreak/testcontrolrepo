@@ -10,8 +10,8 @@
       "description": "A FQDN"
     },
     "nodelist": {
-      "type": "Array[String]",
-      "description": "A FQDN list"
+      "type": "String",
+      "description": "Not a FQDN list"
     },
     "debug": {
       "type": "String",

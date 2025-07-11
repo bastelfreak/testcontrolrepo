@@ -14,6 +14,8 @@ plan profile::p2a_recertify(
     $nodes = puppetdb_query("inventory[certname] { certname ~ '${substring}' }").map |$node| { $node['certname'] }
   }.flatten.unique
 
+  out::message("Found following nodes: ${nodes.join(' ')}")
+
   $nodes.each |$node| {
     $valid_certname=run_task('profile::recertify_node_yolo', $primary, myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
     unless $valid_certname.ok {

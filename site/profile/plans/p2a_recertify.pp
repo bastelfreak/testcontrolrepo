@@ -31,12 +31,12 @@ plan profile::p2a_recertify(
     #  next()
     #}
 
-    #$data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
-    #$download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)
-    #unless $download_p2a_csr.ok {
-    #  warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
-    #  next()
-    #}
+    $data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
+    $download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)
+    unless $download_p2a_csr.ok {
+      warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
+      next()
+    }
 
     $data_release_node = {myfunction => 'release_node', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
     $release_node = run_task('profile::recertify_node_yolo', $primary, "release_node for ${node}", $data_release_node)

@@ -17,38 +17,43 @@ plan profile::p2a_recertify(
   out::message("Found following nodes: ${nodes.join(' ')}")
 
   $nodes.each |$node| {
-    $valid_certname=run_task('profile::recertify_node_yolo', $primary, myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
+    $data_valid_certname = {myfunction => 'valid_certname', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $valid_certname = run_task('profile::recertify_node_yolo', $primary, "valid_certname for ${node}"), $data_valid_certname)
     unless $valid_certname.ok {
       warning("Node ${node} not known to Primary. Result=${valid_certname.error_set.names}")
       next()
     }
 
-    $precheck_p2a_server=run_task('profile::recertify_node_yolo', $primary, myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
+    $data_precheck_p2a_server = {myfunction => 'precheck_p2a_server', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $precheck_p2a_server = run_task('profile::recertify_node_yolo', $primary, "precheck_p2a_server for ${node}", $data_precheck_p2a_server)
     unless $precheck_p2a_server.ok {
       warning("Node ${node} has no replacement certificate signing request in gitlab Result=${precheck_p2a_server.error_set.names}")
       next()
     }
 
     $data_download_p2a_csr = {myfunction => 'download_p2a_csr', singlenode => $node, nodelist => "nonEmpty", debug => "/bin/true", _catch_errors => true}
-    $download_p2a_csr=run_task('profile::recertify_node_yolo', $node, "download_p2a_csr on ${node}", $data_download_p2a_csr)
+    $download_p2a_csr = run_task('profile::recertify_node_yolo', $node, "download_p2a_csr for ${node}", $data_download_p2a_csr)
     unless $download_p2a_csr.ok {
       warning("Node ${node}; precondition not met, either on of: (1) you tried to recertify puppet master, (2) nodes PXP agent is not running, (3) node could not retrieve csr_attributes.yaml, aborting ;Result=${download_p2a_csr.error_set.names}")
       next()
     }
 
-    $release_node=run_task('profile::recertify_node_yolo', $primary, myfunction => 'release_node', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
+    $data_release_node = {myfunction => 'release_node', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $release_node = run_task('profile::recertify_node_yolo', $primary, "release_node for ${node}", $data_release_node)
     unless $release_node.ok {
       warning("Node ${node} unknown error. Releasing and re-registering failed.")
       next()
     }
 
-    $rmdir_ssl=run_task('profile::recertify_node_yolo', $node, myfunction => 'rmdir_ssl', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
+    $data_rmdir_ssl = {myfunction => 'rmdir_ssl', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $rmdir_ssl = run_task('profile::recertify_node_yolo', $node, "rmdir_ssl for ${node}", $data_rmdir_ssl)
     unless $rmdir_ssl.ok {
       warning("Node ${node} unknown error. Releasing and re-registering failed.")
       next()
     }
 
-    $agentrun=run_task('profile::recertify_node_yolo', $node, myfunction => 'agent_run', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true)
+    $data_agentrun = {myfunction => 'agent_run', singlenode => $node, nodelist => "nonEmpty", _catch_errors => true}
+    $agentrun = run_task('profile::recertify_node_yolo', $node, "agent_run for ${node}", $data_agentrun)
     unless $agentrun.ok {
       warning("Node ${node} unknown error. Releasing and re-registering failed.")
     }

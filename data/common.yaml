@@ -47,3 +47,6 @@ puppet_enterprise::master::file_sync::chown_code_to_pe_puppet: false
 # The underlying copy implementation to use in versioned deploys.
 # The 'java' option will use Files.copy, while 'shell-cp' will use `/bin/cp`.
 puppet_enterprise::master::file_sync::copy_method: 'shell-cp'
+
+# increase timeout
+puppet_enterprise::profile::console::rbac_session_timeout: 4320

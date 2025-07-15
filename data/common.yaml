@@ -25,3 +25,6 @@ puppet_enterprise::profile::agent::package_inventory_enabled: true
 puppet_agent::version: 'auto'
 
 profiles::cleanup::show_diff: true
+
+# increase timeout
+puppet_enterprise::profile::console::rbac_session_timeout: 4320

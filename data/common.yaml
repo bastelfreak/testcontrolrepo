@@ -53,4 +53,4 @@ puppet_enterprise::profile::console::rbac_session_timeout: 4320
 
 puppet_enterprise::pxp_agent::extra_options:
   log-pcp-access: true
-  log-level: debug
+  loglevel: debug

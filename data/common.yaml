@@ -51,6 +51,6 @@ puppet_enterprise::master::file_sync::copy_method: 'shell-cp'
 # increase timeout
 puppet_enterprise::profile::console::rbac_session_timeout: 4320
 
+puppet_enterprise::pxp_agent::log_level: 'debug'
 puppet_enterprise::pxp_agent::extra_options:
   log-pcp-access: true
-  loglevel: debug
